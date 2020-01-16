@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  LibraryViewController.swift
 //  iTunesPlayer
 //
 //  Created by Alex on 16.01.2020.
@@ -8,13 +8,15 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class LibraryViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
 
+        view.backgroundColor = .lightGray
+    }
+    
+
+    
 
 }
-

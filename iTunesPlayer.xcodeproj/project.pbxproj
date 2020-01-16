@@ -7,23 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FAB8793023D092D500A99957 /* Extension + UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB8792F23D092D500A99957 /* Extension + UIViewController.swift */; };
 		FAC9831123D05753008A7CCA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC9831023D05753008A7CCA /* AppDelegate.swift */; };
 		FAC9831323D05753008A7CCA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC9831223D05753008A7CCA /* SceneDelegate.swift */; };
-		FAC9831523D05754008A7CCA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC9831423D05754008A7CCA /* ViewController.swift */; };
-		FAC9831823D05754008A7CCA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAC9831623D05754008A7CCA /* Main.storyboard */; };
 		FAC9831A23D05763008A7CCA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAC9831923D05763008A7CCA /* Assets.xcassets */; };
 		FAC9831D23D05763008A7CCA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAC9831B23D05763008A7CCA /* LaunchScreen.storyboard */; };
+		FAC9832523D05A5F008A7CCA /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC9832423D05A5F008A7CCA /* MainTabBarController.swift */; };
+		FAC9832723D05ACC008A7CCA /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC9832623D05ACC008A7CCA /* SearchViewController.swift */; };
+		FAC9832923D05AF2008A7CCA /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC9832823D05AF2008A7CCA /* LibraryViewController.swift */; };
+		FAC9832B23D07D94008A7CCA /* ResponsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC9832A23D07D94008A7CCA /* ResponsModel.swift */; };
+		FAC9832E23D0819D008A7CCA /* SearchInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC9832D23D0819D008A7CCA /* SearchInteractor.swift */; };
+		FAC9833023D081B4008A7CCA /* SearchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC9832F23D081B4008A7CCA /* SearchPresenter.swift */; };
+		FADA614B23D087230044E019 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADA614A23D087230044E019 /* DataProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FAB8792F23D092D500A99957 /* Extension + UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIViewController.swift"; sourceTree = "<group>"; };
 		FAC9830D23D05753008A7CCA /* iTunesPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTunesPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAC9831023D05753008A7CCA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FAC9831223D05753008A7CCA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		FAC9831423D05754008A7CCA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		FAC9831723D05754008A7CCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FAC9831923D05763008A7CCA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FAC9831C23D05763008A7CCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FAC9831E23D05763008A7CCA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FAC9832423D05A5F008A7CCA /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		FAC9832623D05ACC008A7CCA /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		FAC9832823D05AF2008A7CCA /* LibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
+		FAC9832A23D07D94008A7CCA /* ResponsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsModel.swift; sourceTree = "<group>"; };
+		FAC9832D23D0819D008A7CCA /* SearchInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInteractor.swift; sourceTree = "<group>"; };
+		FAC9832F23D081B4008A7CCA /* SearchPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPresenter.swift; sourceTree = "<group>"; };
+		FADA614A23D087230044E019 /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,13 +70,27 @@
 			children = (
 				FAC9831023D05753008A7CCA /* AppDelegate.swift */,
 				FAC9831223D05753008A7CCA /* SceneDelegate.swift */,
-				FAC9831423D05754008A7CCA /* ViewController.swift */,
-				FAC9831623D05754008A7CCA /* Main.storyboard */,
+				FAC9832423D05A5F008A7CCA /* MainTabBarController.swift */,
+				FAC9832C23D08168008A7CCA /* SearchScreen */,
+				FAC9832823D05AF2008A7CCA /* LibraryViewController.swift */,
+				FAC9832A23D07D94008A7CCA /* ResponsModel.swift */,
+				FADA614A23D087230044E019 /* DataProvider.swift */,
+				FAB8792F23D092D500A99957 /* Extension + UIViewController.swift */,
 				FAC9831923D05763008A7CCA /* Assets.xcassets */,
 				FAC9831B23D05763008A7CCA /* LaunchScreen.storyboard */,
 				FAC9831E23D05763008A7CCA /* Info.plist */,
 			);
 			path = iTunesPlayer;
+			sourceTree = "<group>";
+		};
+		FAC9832C23D08168008A7CCA /* SearchScreen */ = {
+			isa = PBXGroup;
+			children = (
+				FAC9832623D05ACC008A7CCA /* SearchViewController.swift */,
+				FAC9832D23D0819D008A7CCA /* SearchInteractor.swift */,
+				FAC9832F23D081B4008A7CCA /* SearchPresenter.swift */,
+			);
+			path = SearchScreen;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,7 +153,6 @@
 			files = (
 				FAC9831D23D05763008A7CCA /* LaunchScreen.storyboard in Resources */,
 				FAC9831A23D05763008A7CCA /* Assets.xcassets in Resources */,
-				FAC9831823D05754008A7CCA /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,23 +163,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAC9831523D05754008A7CCA /* ViewController.swift in Sources */,
+				FAC9832723D05ACC008A7CCA /* SearchViewController.swift in Sources */,
+				FAC9832923D05AF2008A7CCA /* LibraryViewController.swift in Sources */,
+				FAC9832B23D07D94008A7CCA /* ResponsModel.swift in Sources */,
 				FAC9831123D05753008A7CCA /* AppDelegate.swift in Sources */,
+				FAC9832523D05A5F008A7CCA /* MainTabBarController.swift in Sources */,
 				FAC9831323D05753008A7CCA /* SceneDelegate.swift in Sources */,
+				FAB8793023D092D500A99957 /* Extension + UIViewController.swift in Sources */,
+				FADA614B23D087230044E019 /* DataProvider.swift in Sources */,
+				FAC9833023D081B4008A7CCA /* SearchPresenter.swift in Sources */,
+				FAC9832E23D0819D008A7CCA /* SearchInteractor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		FAC9831623D05754008A7CCA /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FAC9831723D05754008A7CCA /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		FAC9831B23D05763008A7CCA /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
