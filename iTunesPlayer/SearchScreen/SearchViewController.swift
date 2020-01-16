@@ -20,9 +20,10 @@ class SearchViewController: UIViewController {
     
     private lazy var table: UITableView = {
         let table = UITableView()
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        table.register(SearchTableViewCell.self, forCellReuseIdentifier: "cell")
         table.translatesAutoresizingMaskIntoConstraints = false
         table.dataSource = self
+        table.delegate = self
         return table
     }()
     
@@ -80,11 +81,18 @@ extension SearchViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = tracks[indexPath.row].trackName
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SearchTableViewCell
+        cell.set(track: tracks[indexPath.row])
         return cell
     }
     
+}
+
+extension SearchViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
 }
 
 // MARK: - UISearchBarDelegate
@@ -94,8 +102,7 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (_) in
-            print("searchText = \(searchText)")
+        timer = Timer.scheduledTimer(withTimeInterval: 0.6, repeats: false, block: { (_) in
             guard !searchText.isEmpty else { return }
             self.interactor.getData(width: searchText)
         })
