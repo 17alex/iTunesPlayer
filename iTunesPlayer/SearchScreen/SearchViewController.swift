@@ -43,6 +43,8 @@ class SearchViewController: UIViewController {
         setupViews()
     }
     
+    //MARK: - Metods
+    
     private func setup() {
         presenter = SearchPresenter(searchView: self)
         dataProvider = DataProvider()

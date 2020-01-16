@@ -12,6 +12,8 @@ class SearchTableViewCell: UITableViewCell {
     
     // MARK: - Propertis
     
+    weak var delegate: SearchViewController?
+    
     private var track: Track! {
         didSet{
             trackNameLabel.text = track.trackName
@@ -62,13 +64,9 @@ class SearchTableViewCell: UITableViewCell {
     // MARK: - Metods
     
     private func setIconImage(with stringUrl: String?) {
-        guard let stringUrl = stringUrl, let url = URL(string: stringUrl) else { return }
-        DispatchQueue.global().async {
-            guard let data = try? Data(contentsOf: url) else { return }
-            DispatchQueue.main.async { [weak self] in
-                self?.iconImageView.image = UIImage(data: data)
-            }
-        }
+        
+        
+
     }
     
     func set(track: Track) {
