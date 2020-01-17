@@ -28,4 +28,10 @@ class SearchPresenter {
     func presentAlert(with text: String) {
         searchView.presentAlert(with: text)
     }
+    
+    func setIconImage(imageData: Data, completion: ((UIImage?) -> Void)) {
+        let image = UIImage(data: imageData)
+        completion(image)
+    }
+    
 }

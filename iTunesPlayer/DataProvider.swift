@@ -22,14 +22,13 @@ class DataProvider {
         }.resume()
     }
     
-    func getImageData(urlString: String, completion: @escaping (Data?) -> Void) {
-        
-        guard let url = URL(string: urlString) else { return }
-        let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 3)
+    func getImageData(urlString: String?, completion: @escaping (Data?) -> Void) {
+        guard let urlString = urlString, let url = URL(string: urlString) else { return }
+        let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 30)
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             DispatchQueue.main.async {
-                if let _ = error { completion(nil) }
-                if let data = data   { completion(data) }
+                if let _ = error   { completion(nil) }
+                if let data = data { completion(data) }
             }
         }.resume()
     }

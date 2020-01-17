@@ -40,4 +40,12 @@ class SearchInteractor {
             }
         }
     }
+    
+    func getImageData(from urlString: String?, complete: @escaping ((UIImage?) -> Void)) {
+        
+        dataProvider.getImageData(urlString: urlString) { (data) in
+            guard let data = data else { return }
+            self.presenter.setIconImage(imageData: data, completion: complete)
+        }
+    }
 }

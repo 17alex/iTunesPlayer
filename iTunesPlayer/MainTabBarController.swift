@@ -19,7 +19,7 @@ class MainTabBarController: UITabBarController {
         searchVC.tabBarItem.title = "Search"
         searchVC.tabBarItem.image = UIImage(systemName: "doc.text.magnifyingglass")
         
-        let libraryVC = LibraryViewController()
+        let libraryVC = TrackPlayViewController()
         libraryVC.tabBarItem.title = "Library"
         libraryVC.tabBarItem.image = UIImage(systemName: "doc.plaintext")
         

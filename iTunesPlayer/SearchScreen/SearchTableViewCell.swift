@@ -19,6 +19,7 @@ class SearchTableViewCell: UITableViewCell {
             trackNameLabel.text = track.trackName
             artistNameLabel.text = track.artistName
             setIconImage(with: track.artworkUrl60)
+            testLabel.text = track.artworkUrl60
         }
     }
     
@@ -47,6 +48,16 @@ class SearchTableViewCell: UITableViewCell {
         return label
     }()
     
+    private let testLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        label.text = "text"
+        label.font = UIFont.systemFont(ofSize: 6, weight: .light)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     // MARK: - LiveCycles
     
     override func didMoveToSuperview() {
@@ -65,8 +76,9 @@ class SearchTableViewCell: UITableViewCell {
     
     private func setIconImage(with stringUrl: String?) {
         
-        
-
+        delegate?.getImage(from: stringUrl, complete: { [weak self] (image) in
+            self?.iconImageView.image = image
+        })
     }
     
     func set(track: Track) {
@@ -81,14 +93,19 @@ class SearchTableViewCell: UITableViewCell {
         iconImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2).isActive = true
         iconImageView.widthAnchor.constraint(equalTo: iconImageView.heightAnchor).isActive = true
         
-        
         addSubview(trackNameLabel)
         trackNameLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 10).isActive = true
         trackNameLabel.topAnchor.constraint(equalTo: iconImageView.topAnchor).isActive = true
+        trackNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 5).isActive = true
         
-
         addSubview(artistNameLabel)
         artistNameLabel.leadingAnchor.constraint(equalTo: trackNameLabel.leadingAnchor).isActive = true
         artistNameLabel.topAnchor.constraint(equalTo: trackNameLabel.bottomAnchor, constant: 1).isActive = true
+        artistNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 5).isActive = true
+        
+        addSubview(testLabel)
+        testLabel.leadingAnchor.constraint(equalTo: trackNameLabel.leadingAnchor).isActive = true
+        testLabel.topAnchor.constraint(equalTo: artistNameLabel.bottomAnchor, constant: 1).isActive = true
+        testLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 5).isActive = true
     }
 }

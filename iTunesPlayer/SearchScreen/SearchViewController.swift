@@ -72,6 +72,10 @@ class SearchViewController: UIViewController {
         showAlert(with: text)
     }
 
+    func getImage(from urlString: String?, complete: @escaping ((UIImage?) -> Void)) {
+        interactor.getImageData(from: urlString, complete: complete)
+    }
+    
 }
 
 // MARK: - UITableViewDataSource
@@ -84,17 +88,21 @@ extension SearchViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SearchTableViewCell
+        cell.delegate = self
         cell.set(track: tracks[indexPath.row])
         return cell
     }
     
 }
 
+// MARK: - UITableViewDelegate
+
 extension SearchViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
+    
 }
 
 // MARK: - UISearchBarDelegate
@@ -109,6 +117,7 @@ extension SearchViewController: UISearchBarDelegate {
             self.interactor.getData(width: searchText)
         })
     }
+    
 }
 
 
