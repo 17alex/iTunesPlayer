@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TrackPlayViewController: UIViewController {
+class TrackPlayerView: UIView {
     
     // MARK: - Property
     
@@ -19,10 +19,9 @@ class TrackPlayViewController: UIViewController {
     
     private let closeButton: UIButton = {
         let button = UIButton(type: .system)
-        button.imageView?.image = UIImage(systemName: "chevron.down")
-        button.setTitle("close", for: .normal)
-        button.titleColor(for: .normal)
-        button.backgroundColor = .orange
+        button.setImage(UIImage(systemName: "chevron.down"), for: .normal)
+        button.tintColor = .black
+//        button.backgroundColor = .orange
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -36,7 +35,7 @@ class TrackPlayViewController: UIViewController {
     
     private let timeSlider: UISlider = {
         let slider = UISlider()
-        slider.backgroundColor = .orange
+//        slider.backgroundColor = .orange
         slider.setValue(0, animated: false)
         slider.translatesAutoresizingMaskIntoConstraints = false
         return slider
@@ -46,7 +45,7 @@ class TrackPlayViewController: UIViewController {
         let label = UILabel()
         label.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         label.text = "00:00"
-        label.backgroundColor = .yellow
+//        label.backgroundColor = .yellow
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 10, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -57,9 +56,29 @@ class TrackPlayViewController: UIViewController {
         let label = UILabel()
         label.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         label.text = "00:00"
-        label.backgroundColor = .green
+//        label.backgroundColor = .green
         label.textAlignment = .right
         label.font = UIFont.systemFont(ofSize: 10, weight: .regular)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let trackNameLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = #colorLiteral(red: 0.06274510175, green: 0, blue: 0.1921568662, alpha: 1)
+        label.text = "trackName"
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let artistNameLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
+        label.text = "artistName"
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 16, weight: .light)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -68,7 +87,6 @@ class TrackPlayViewController: UIViewController {
         let button = UIButton(type: .system)
         button.setImage(backwardImage, for: .normal)
         button.tintColor = .black
-        button.backgroundColor = .orange
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -77,7 +95,6 @@ class TrackPlayViewController: UIViewController {
         let button = UIButton(type: .system)
         button.setImage(playImage, for: .normal)
         button.tintColor = .black
-        button.backgroundColor = .lightGray
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -86,14 +103,12 @@ class TrackPlayViewController: UIViewController {
         let button = UIButton(type: .system)
         button.setImage(forwardImage, for: .normal)
         button.tintColor = .black
-        button.backgroundColor = .orange
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     private let volumeSlider: UISlider = {
         let slider = UISlider()
-        slider.backgroundColor = .orange
         slider.setValue(0.2, animated: false)
         slider.translatesAutoresizingMaskIntoConstraints = false
         return slider
@@ -102,18 +117,19 @@ class TrackPlayViewController: UIViewController {
     
     // MARK: - Live Cycles
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
         
         setupViews()
     }
+    
     
     // MARK: - Metods
     
     
     private func setupViews() {
         
-        view.backgroundColor = .white
+        backgroundColor = .white
         
         let timeLabelStackView = UIStackView(arrangedSubviews: [elapsedTimeLabel, remainingTimeLabel])
         timeLabelStackView.axis = .horizontal
@@ -125,26 +141,34 @@ class TrackPlayViewController: UIViewController {
         timeSliderStackView.distribution = .fill
         timeSliderStackView.translatesAutoresizingMaskIntoConstraints = false
         
+        let trackArtistNameStackView = UIStackView(arrangedSubviews: [trackNameLabel, artistNameLabel])
+        trackArtistNameStackView.axis = .vertical
+        trackArtistNameStackView.distribution = .fill
+        trackArtistNameStackView.translatesAutoresizingMaskIntoConstraints = false
+        
         let controlStackView = UIStackView(arrangedSubviews: [backwardButton, playPauseButton, forwardButton])
         controlStackView.axis = .horizontal
         controlStackView.distribution = .fillEqually
+//        controlStackView.alignment = .center
         controlStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        let mainStackView = UIStackView(arrangedSubviews: [closeButton, iconImageView, timeSliderStackView, controlStackView, volumeSlider])
+        let mainStackView = UIStackView(arrangedSubviews: [closeButton, iconImageView, timeSliderStackView, trackArtistNameStackView, controlStackView, volumeSlider])
         mainStackView.axis = .vertical
         mainStackView.distribution = .fill
-        mainStackView.spacing = 10
+        mainStackView.spacing = 5
         mainStackView.backgroundColor = .lightGray
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(mainStackView)
-        mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
-        mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        mainStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30).isActive = true
-        mainStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        addSubview(mainStackView)
+        mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 35).isActive = true
+        mainStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
+        mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -35).isActive = true
+        mainStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
         
         closeButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         iconImageView.heightAnchor.constraint(equalTo: iconImageView.widthAnchor).isActive = true
+        trackArtistNameStackView.heightAnchor.constraint(equalToConstant: 40).isActive = true
         timeLabelStackView.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
     }
     
     

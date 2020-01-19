@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FA70998E23D1D21100C7E1AA /* TrackPlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA70998D23D1D21100C7E1AA /* TrackPlayViewController.swift */; };
+		FA70998E23D1D21100C7E1AA /* TrackPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA70998D23D1D21100C7E1AA /* TrackPlayerView.swift */; };
 		FAB8793023D092D500A99957 /* Extension + UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB8792F23D092D500A99957 /* Extension + UIViewController.swift */; };
 		FAB8793223D095C200A99957 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB8793123D095C200A99957 /* SearchTableViewCell.swift */; };
 		FAC9831123D05753008A7CCA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC9831023D05753008A7CCA /* AppDelegate.swift */; };
@@ -24,7 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		FA70998D23D1D21100C7E1AA /* TrackPlayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackPlayViewController.swift; sourceTree = "<group>"; };
+		FA70998D23D1D21100C7E1AA /* TrackPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackPlayerView.swift; sourceTree = "<group>"; };
 		FAB8792F23D092D500A99957 /* Extension + UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIViewController.swift"; sourceTree = "<group>"; };
 		FAB8793123D095C200A99957 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		FAC9830D23D05753008A7CCA /* iTunesPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTunesPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -53,12 +53,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		FA70998C23D1D1C700C7E1AA /* New Group */ = {
+		FA70998C23D1D1C700C7E1AA /* TrackPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				FA70998D23D1D21100C7E1AA /* TrackPlayViewController.swift */,
+				FA70998D23D1D21100C7E1AA /* TrackPlayerView.swift */,
 			);
-			path = "New Group";
+			path = TrackPlayer;
 			sourceTree = "<group>";
 		};
 		FAC9830423D05753008A7CCA = {
@@ -84,7 +84,7 @@
 				FAC9831223D05753008A7CCA /* SceneDelegate.swift */,
 				FAC9832423D05A5F008A7CCA /* MainTabBarController.swift */,
 				FAC9832C23D08168008A7CCA /* SearchScreen */,
-				FA70998C23D1D1C700C7E1AA /* New Group */,
+				FA70998C23D1D1C700C7E1AA /* TrackPlayer */,
 				FAC9832823D05AF2008A7CCA /* LibraryViewController.swift */,
 				FAC9832A23D07D94008A7CCA /* ResponsModel.swift */,
 				FADA614A23D087230044E019 /* DataProvider.swift */,
@@ -179,7 +179,7 @@
 			files = (
 				FAC9832723D05ACC008A7CCA /* SearchViewController.swift in Sources */,
 				FAC9832923D05AF2008A7CCA /* LibraryViewController.swift in Sources */,
-				FA70998E23D1D21100C7E1AA /* TrackPlayViewController.swift in Sources */,
+				FA70998E23D1D21100C7E1AA /* TrackPlayerView.swift in Sources */,
 				FAC9832B23D07D94008A7CCA /* ResponsModel.swift in Sources */,
 				FAC9831123D05753008A7CCA /* AppDelegate.swift in Sources */,
 				FAB8793223D095C200A99957 /* SearchTableViewCell.swift in Sources */,

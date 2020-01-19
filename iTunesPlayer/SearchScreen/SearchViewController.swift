@@ -99,6 +99,14 @@ extension SearchViewController: UITableViewDataSource {
 
 extension SearchViewController: UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("didSelectRowAt = ", indexPath.row)
+        let trackPlayerView = TrackPlayerView()
+        guard let keyWindow = UIApplication.shared.keyWindow else { return }
+        keyWindow.addSubview(trackPlayerView)
+        trackPlayerView.frame = keyWindow.frame
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
