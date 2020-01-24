@@ -7,10 +7,17 @@
 //
 
 import UIKit
+import  AVKit
 
 class TrackPlayerView: UIView {
     
     // MARK: - Property
+    
+    private let player: AVPlayer = {
+       let player = AVPlayer()
+        player.automaticallyWaitsToMinimizeStalling = false
+        return player
+    }()
     
     private let playImage = UIImage(systemName: "play.fill")
     private let pauseImage = UIImage(systemName: "pause.fill")
@@ -22,6 +29,7 @@ class TrackPlayerView: UIView {
         button.setImage(UIImage(systemName: "chevron.down"), for: .normal)
         button.tintColor = .black
 //        button.backgroundColor = .orange
+        button.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -126,6 +134,23 @@ class TrackPlayerView: UIView {
     
     // MARK: - Metods
     
+    private func playTrack(stringURL: String?) {
+        guard let stringURL = stringURL, let url = URL(string: stringURL) else { return }
+        let playerItem = AVPlayerItem(url: url)
+        player.replaceCurrentItem(with: playerItem)
+        player.play()
+    }
+    
+    func set(track: Track) {
+        trackNameLabel.text = track.trackName
+        artistNameLabel.text = track.artistName
+        playTrack(stringURL: track.previewUrl)
+    }
+    
+    @objc
+    private func dismissView() {
+        self.removeFromSuperview()
+    }
     
     private func setupViews() {
         

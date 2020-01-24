@@ -17,6 +17,7 @@ class SearchViewController: UIViewController {
     
     private var timer: Timer?
     private var tracks: [Track] = []
+
     
     private lazy var table: UITableView = {
         let table = UITableView()
@@ -100,11 +101,12 @@ extension SearchViewController: UITableViewDataSource {
 extension SearchViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("didSelectRowAt = ", indexPath.row)
-        let trackPlayerView = TrackPlayerView()
+        let track = tracks[indexPath.row]
         guard let keyWindow = UIApplication.shared.keyWindow else { return }
-        keyWindow.addSubview(trackPlayerView)
+        let trackPlayerView = TrackPlayerView()
         trackPlayerView.frame = keyWindow.frame
+        trackPlayerView.set(track: track)
+        keyWindow.addSubview(trackPlayerView)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
