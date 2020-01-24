@@ -103,8 +103,9 @@ class TrackPlayerView: UIView {
     
     private lazy var playPauseButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(playImage, for: .normal)
+        button.setImage(pauseImage, for: .normal)
         button.tintColor = .black
+        button.addTarget(self, action: #selector(playPayseButtonPress), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -156,6 +157,17 @@ class TrackPlayerView: UIView {
         delegate?.getImage(from: stringUrl, complete: { [weak self] (image) in
             self?.iconImageView.image = image
         })
+    }
+    
+    @objc
+    private func playPayseButtonPress() {
+        if player.timeControlStatus == .paused {
+            player.play()
+            playPauseButton.setImage(pauseImage, for: .normal)
+        } else {
+            player.pause()
+            playPauseButton.setImage(playImage, for: .normal)
+        }
     }
     
     @objc
