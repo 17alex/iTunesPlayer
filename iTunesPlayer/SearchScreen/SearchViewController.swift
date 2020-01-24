@@ -105,6 +105,7 @@ extension SearchViewController: UITableViewDelegate {
         guard let keyWindow = UIApplication.shared.keyWindow else { return }
         let trackPlayerView = TrackPlayerView()
         trackPlayerView.frame = keyWindow.frame
+        trackPlayerView.delegate = self
         trackPlayerView.set(track: track)
         keyWindow.addSubview(trackPlayerView)
     }

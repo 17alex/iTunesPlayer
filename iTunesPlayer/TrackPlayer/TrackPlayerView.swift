@@ -13,6 +13,8 @@ class TrackPlayerView: UIView {
     
     // MARK: - Property
     
+    weak var delegate: SearchViewController?
+    
     private let player: AVPlayer = {
        let player = AVPlayer()
         player.automaticallyWaitsToMinimizeStalling = false
@@ -144,7 +146,16 @@ class TrackPlayerView: UIView {
     func set(track: Track) {
         trackNameLabel.text = track.trackName
         artistNameLabel.text = track.artistName
+        let artworkUrl600 = track.artworkUrl60?.replacingOccurrences(of: "60x60", with: "600x600")
+        setIconImage(with: artworkUrl600)
         playTrack(stringURL: track.previewUrl)
+    }
+    
+    private func setIconImage(with stringUrl: String?) {
+        
+        delegate?.getImage(from: stringUrl, complete: { [weak self] (image) in
+            self?.iconImageView.image = image
+        })
     }
     
     @objc
