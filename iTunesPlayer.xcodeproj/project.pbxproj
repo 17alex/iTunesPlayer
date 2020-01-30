@@ -21,6 +21,7 @@
 		FAC9832E23D0819D008A7CCA /* SearchInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC9832D23D0819D008A7CCA /* SearchInteractor.swift */; };
 		FAC9833023D081B4008A7CCA /* SearchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC9832F23D081B4008A7CCA /* SearchPresenter.swift */; };
 		FADA614B23D087230044E019 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADA614A23D087230044E019 /* DataProvider.swift */; };
+		FAEBBD9323E3094600B6F244 /* CMTime + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEBBD9223E3094600B6F244 /* CMTime + Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		FAC9832D23D0819D008A7CCA /* SearchInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInteractor.swift; sourceTree = "<group>"; };
 		FAC9832F23D081B4008A7CCA /* SearchPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPresenter.swift; sourceTree = "<group>"; };
 		FADA614A23D087230044E019 /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
+		FAEBBD9223E3094600B6F244 /* CMTime + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMTime + Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 				FAC9832C23D08168008A7CCA /* SearchScreen */,
 				FA70998C23D1D1C700C7E1AA /* TrackPlayer */,
 				FAC9832823D05AF2008A7CCA /* LibraryViewController.swift */,
+				FAEBBD9223E3094600B6F244 /* CMTime + Extension.swift */,
 				FAC9832A23D07D94008A7CCA /* ResponsModel.swift */,
 				FADA614A23D087230044E019 /* DataProvider.swift */,
 				FAB8792F23D092D500A99957 /* Extension + UIViewController.swift */,
@@ -188,6 +191,7 @@
 				FAB8793023D092D500A99957 /* Extension + UIViewController.swift in Sources */,
 				FADA614B23D087230044E019 /* DataProvider.swift in Sources */,
 				FAC9833023D081B4008A7CCA /* SearchPresenter.swift in Sources */,
+				FAEBBD9323E3094600B6F244 /* CMTime + Extension.swift in Sources */,
 				FAC9832E23D0819D008A7CCA /* SearchInteractor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

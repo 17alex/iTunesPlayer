@@ -59,7 +59,7 @@ class TrackPlayerView: UIView {
         label.text = "00:00"
 //        label.backgroundColor = .yellow
         label.textAlignment = .left
-        label.font = UIFont.systemFont(ofSize: 10, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -70,7 +70,7 @@ class TrackPlayerView: UIView {
         label.text = "00:00"
 //        label.backgroundColor = .green
         label.textAlignment = .right
-        label.font = UIFont.systemFont(ofSize: 10, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -153,6 +153,7 @@ class TrackPlayerView: UIView {
         setIconImage(with: artworkUrl600)
         playTrack(stringURL: track.previewUrl)
         addObserverStartTime()
+        addObserveCurrentTime()
     }
     
     private func enlargeIconImageView() {
@@ -174,6 +175,25 @@ class TrackPlayerView: UIView {
         player.addBoundaryTimeObserver(forTimes: times, queue: .main) { [weak self] in
             self?.enlargeIconImageView()
         }
+    }
+    
+    private func addObserveCurrentTime() {
+        let interval = CMTimeMake(value: 1, timescale: 5)
+        player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] (cmTime) in
+            self?.elapsedTimeLabel.text = cmTime.toDisplayString()
+            
+            if let durationCmTime = self?.player.currentItem?.duration {
+                self?.remainingTimeLabel.text = String("-" + (durationCmTime - cmTime).toDisplayString())
+                self?.updateTimeSlider(percentage: Float(CMTimeGetSeconds(cmTime) / CMTimeGetSeconds(durationCmTime)))
+            } else {
+                self?.remainingTimeLabel.text = String("--:--")
+                self?.updateTimeSlider(percentage: 0)
+            }
+        }
+    }
+    
+    private func updateTimeSlider(percentage: Float) {
+        timeSlider.value = percentage
     }
     
     private func setIconImage(with stringUrl: String?) {
