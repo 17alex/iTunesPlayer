@@ -39,6 +39,8 @@ class TrackPlayerView: UIView {
     private let iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .lightGray
+        imageView.layer.cornerRadius = 5
+        imageView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -150,6 +152,28 @@ class TrackPlayerView: UIView {
         let artworkUrl600 = track.artworkUrl60?.replacingOccurrences(of: "60x60", with: "600x600")
         setIconImage(with: artworkUrl600)
         playTrack(stringURL: track.previewUrl)
+        addObserverStartTime()
+    }
+    
+    private func enlargeIconImageView() {
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: .curveEaseInOut, animations: { [weak self] in
+            self?.iconImageView.transform = .identity
+        }, completion: nil)
+    }
+    
+    private func reduceIconImageView() {
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: .curveEaseInOut, animations: { [weak self] in
+            self?.iconImageView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        }, completion: nil)
+    }
+    
+    private func addObserverStartTime() {
+        
+        let time = CMTimeMake(value: 1, timescale: 10)
+        let times = [NSValue(time: time)]
+        player.addBoundaryTimeObserver(forTimes: times, queue: .main) { [weak self] in
+            self?.enlargeIconImageView()
+        }
     }
     
     private func setIconImage(with stringUrl: String?) {
@@ -164,9 +188,11 @@ class TrackPlayerView: UIView {
         if player.timeControlStatus == .paused {
             player.play()
             playPauseButton.setImage(pauseImage, for: .normal)
+            enlargeIconImageView()
         } else {
             player.pause()
             playPauseButton.setImage(playImage, for: .normal)
+            reduceIconImageView()
         }
     }
     
@@ -203,19 +229,21 @@ class TrackPlayerView: UIView {
         let mainStackView = UIStackView(arrangedSubviews: [closeButton, iconImageView, timeSliderStackView, trackArtistNameStackView, controlStackView, volumeSlider])
         mainStackView.axis = .vertical
         mainStackView.distribution = .fill
-        mainStackView.spacing = 5
+        mainStackView.spacing = 2
         mainStackView.backgroundColor = .lightGray
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(mainStackView)
-        mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 35).isActive = true
+        mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 25).isActive = true
         mainStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
-        mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -35).isActive = true
+        mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -25).isActive = true
         mainStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
         
         closeButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         iconImageView.heightAnchor.constraint(equalTo: iconImageView.widthAnchor).isActive = true
         trackArtistNameStackView.heightAnchor.constraint(equalToConstant: 40).isActive = true
         timeLabelStackView.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        
         
     }
     
