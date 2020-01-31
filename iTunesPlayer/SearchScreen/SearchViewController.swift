@@ -17,6 +17,8 @@ class SearchViewController: UIViewController {
     
     private var timer: Timer?
     private var tracks: [Track] = []
+    
+    weak var tabBarDelegate: MainTabBarController?
 
     
     private lazy var table: UITableView = {
@@ -42,6 +44,7 @@ class SearchViewController: UIViewController {
 
         setup()
         setupViews()
+        searchBar(searchController.searchBar, textDidChange: "red")
     }
     
     //MARK: - Metods
@@ -77,6 +80,10 @@ class SearchViewController: UIViewController {
         interactor.getImageData(from: urlString, complete: complete)
     }
     
+    func minimizePlayer() {
+        tabBarDelegate?.minimizeTrackPlayerView()
+    }
+    
 }
 
 // MARK: - UITableViewDataSource
@@ -102,12 +109,9 @@ extension SearchViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let track = tracks[indexPath.row]
-        guard let keyWindow = UIApplication.shared.keyWindow else { return }
-        let trackPlayerView = TrackPlayerView()
-        trackPlayerView.frame = keyWindow.frame
-        trackPlayerView.delegate = self
-        trackPlayerView.set(track: track)
-        keyWindow.addSubview(trackPlayerView)
+        tabBarDelegate?.maximizeTrackPlayerView(track: track)
+//          keyWindow.addSubview(trackPlayerView)
+//        keyWindow.insertSubview(trackPlayerView, belowSubview: tabBarDelegate!.tabBar)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

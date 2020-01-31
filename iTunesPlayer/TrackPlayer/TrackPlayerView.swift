@@ -13,6 +13,7 @@ class TrackPlayerView: UIView {
     
     // MARK: - Property
     
+    var mainStackView: UIStackView!
     weak var delegate: SearchViewController?
     
     private let player: AVPlayer = {
@@ -31,7 +32,7 @@ class TrackPlayerView: UIView {
         button.setImage(UIImage(systemName: "chevron.down"), for: .normal)
         button.tintColor = .black
 //        button.backgroundColor = .orange
-        button.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
+        button.addTarget(self, action: #selector(minimizePlayer), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -40,7 +41,7 @@ class TrackPlayerView: UIView {
         let imageView = UIImageView()
         imageView.backgroundColor = .lightGray
         imageView.layer.cornerRadius = 5
-        imageView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        imageView.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -134,6 +135,7 @@ class TrackPlayerView: UIView {
         super.didMoveToSuperview()
         
         setupViews()
+        backgroundColor = .orange
     }
     
     
@@ -164,12 +166,11 @@ class TrackPlayerView: UIView {
     
     private func reduceIconImageView() {
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: .curveEaseInOut, animations: { [weak self] in
-            self?.iconImageView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+            self?.iconImageView.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         }, completion: nil)
     }
     
     private func addObserverStartTime() {
-        
         let time = CMTimeMake(value: 1, timescale: 10)
         let times = [NSValue(time: time)]
         player.addBoundaryTimeObserver(forTimes: times, queue: .main) { [weak self] in
@@ -217,8 +218,8 @@ class TrackPlayerView: UIView {
     }
     
     @objc
-    private func dismissView() {
-        self.removeFromSuperview()
+    private func minimizePlayer() {
+        delegate?.minimizePlayer()
     }
     
     private func setupViews() {
@@ -246,7 +247,7 @@ class TrackPlayerView: UIView {
 //        controlStackView.alignment = .center
         controlStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        let mainStackView = UIStackView(arrangedSubviews: [closeButton, iconImageView, timeSliderStackView, trackArtistNameStackView, controlStackView, volumeSlider])
+        mainStackView = UIStackView(arrangedSubviews: [closeButton, iconImageView, timeSliderStackView, trackArtistNameStackView, controlStackView, volumeSlider])
         mainStackView.axis = .vertical
         mainStackView.distribution = .fill
         mainStackView.spacing = 2
