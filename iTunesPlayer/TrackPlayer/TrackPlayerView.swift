@@ -14,10 +14,11 @@ class TrackPlayerView: UIView {
     // MARK: - Property
     
     var mainStackView: UIStackView!
+    var miniStackView: UIStackView!
     weak var delegate: SearchViewController?
     
     private let player: AVPlayer = {
-       let player = AVPlayer()
+        let player = AVPlayer()
         player.automaticallyWaitsToMinimizeStalling = false
         return player
     }()
@@ -26,12 +27,13 @@ class TrackPlayerView: UIView {
     private let pauseImage = UIImage(systemName: "pause.fill")
     private let backwardImage = UIImage(systemName: "backward.fill")
     private let forwardImage = UIImage(systemName: "forward.fill")
+    private let sliderThumb = UIImage(systemName: "circle.fill")
     
     private let closeButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "chevron.down"), for: .normal)
         button.tintColor = .black
-//        button.backgroundColor = .orange
+        //        button.backgroundColor = .orange
         button.addTarget(self, action: #selector(minimizePlayer), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -46,9 +48,20 @@ class TrackPlayerView: UIView {
         return imageView
     }()
     
+    private let miniIconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.backgroundColor = .lightGray
+        imageView.layer.cornerRadius = 5
+//        imageView.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
     private let timeSlider: UISlider = {
         let slider = UISlider()
-//        slider.backgroundColor = .orange
+        slider.tintColor = .darkGray
+        slider.thumbTintColor = .darkGray
+//        slider.setThumbImage(sliderThumb, for: .normal)
         slider.setValue(0, animated: false)
         slider.translatesAutoresizingMaskIntoConstraints = false
         return slider
@@ -58,7 +71,7 @@ class TrackPlayerView: UIView {
         let label = UILabel()
         label.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         label.text = "00:00"
-//        label.backgroundColor = .yellow
+        //        label.backgroundColor = .yellow
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -69,7 +82,7 @@ class TrackPlayerView: UIView {
         let label = UILabel()
         label.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         label.text = "00:00"
-//        label.backgroundColor = .green
+        //        label.backgroundColor = .green
         label.textAlignment = .right
         label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -113,7 +126,24 @@ class TrackPlayerView: UIView {
         return button
     }()
     
+    private lazy var miniPlayPauseButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(pauseImage, for: .normal)
+        button.tintColor = .black
+        button.addTarget(self, action: #selector(playPayseButtonPress), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     private lazy var forwardButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(forwardImage, for: .normal)
+        button.tintColor = .black
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private lazy var miniForwardButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(forwardImage, for: .normal)
         button.tintColor = .black
@@ -134,8 +164,9 @@ class TrackPlayerView: UIView {
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
         
-        setupViews()
-        backgroundColor = .orange
+        setupMainViews()
+        setupMiniViews()
+        backgroundColor = .white
     }
     
     
@@ -161,13 +192,13 @@ class TrackPlayerView: UIView {
     private func enlargeIconImageView() {
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: .curveEaseInOut, animations: { [weak self] in
             self?.iconImageView.transform = .identity
-        }, completion: nil)
+            }, completion: nil)
     }
     
     private func reduceIconImageView() {
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: .curveEaseInOut, animations: { [weak self] in
             self?.iconImageView.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-        }, completion: nil)
+            }, completion: nil)
     }
     
     private func addObserverStartTime() {
@@ -179,7 +210,7 @@ class TrackPlayerView: UIView {
     }
     
     private func addObserveCurrentTime() {
-        let interval = CMTimeMake(value: 1, timescale: 5)
+        let interval = CMTimeMake(value: 1, timescale: 10)
         player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] (cmTime) in
             self?.elapsedTimeLabel.text = cmTime.toDisplayString()
             
@@ -201,6 +232,7 @@ class TrackPlayerView: UIView {
         
         delegate?.getImage(from: stringUrl, complete: { [weak self] (image) in
             self?.iconImageView.image = image
+            self?.miniIconImageView.image = image
         })
     }
     
@@ -209,10 +241,12 @@ class TrackPlayerView: UIView {
         if player.timeControlStatus == .paused {
             player.play()
             playPauseButton.setImage(pauseImage, for: .normal)
+            miniPlayPauseButton.setImage(pauseImage, for: .normal)
             enlargeIconImageView()
         } else {
             player.pause()
             playPauseButton.setImage(playImage, for: .normal)
+            miniPlayPauseButton.setImage(playImage, for: .normal)
             reduceIconImageView()
         }
     }
@@ -222,7 +256,7 @@ class TrackPlayerView: UIView {
         delegate?.minimizePlayer()
     }
     
-    private func setupViews() {
+    private func setupMainViews() {
         
         backgroundColor = .white
         
@@ -244,7 +278,7 @@ class TrackPlayerView: UIView {
         let controlStackView = UIStackView(arrangedSubviews: [backwardButton, playPauseButton, forwardButton])
         controlStackView.axis = .horizontal
         controlStackView.distribution = .fillEqually
-//        controlStackView.alignment = .center
+        //        controlStackView.alignment = .center
         controlStackView.translatesAutoresizingMaskIntoConstraints = false
         
         mainStackView = UIStackView(arrangedSubviews: [closeButton, iconImageView, timeSliderStackView, trackArtistNameStackView, controlStackView, volumeSlider])
@@ -266,6 +300,23 @@ class TrackPlayerView: UIView {
         
         
         
+    }
+    
+    private func setupMiniViews() {
+        miniStackView = UIStackView(arrangedSubviews: [miniIconImageView, UIView(), miniPlayPauseButton,miniForwardButton])
+        miniStackView.axis = .horizontal
+        miniStackView.distribution = .fill
+        miniStackView.spacing = 1
+        miniStackView.backgroundColor = .green
+        miniStackView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(miniStackView)
+        miniStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 4).isActive = true
+        miniStackView.topAnchor.constraint(equalTo: mainStackView.topAnchor, constant: 2).isActive = true
+        miniStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20).isActive = true
+        miniStackView.heightAnchor.constraint(equalToConstant: 56).isActive = true
+        miniIconImageView.heightAnchor.constraint(equalTo: miniIconImageView.widthAnchor).isActive = true
+        miniPlayPauseButton.heightAnchor.constraint(equalTo: miniPlayPauseButton.widthAnchor).isActive = true
+        miniForwardButton.heightAnchor.constraint(equalTo: miniForwardButton.widthAnchor).isActive = true
     }
     
     

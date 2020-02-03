@@ -10,13 +10,19 @@ import UIKit
 
 class MainTabBarController: UITabBarController {
     
+    // MARK: - Propertis
+    
     let trackPlayerView = TrackPlayerView()
+    
+    // MARK: - Live cycles
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setup()
     }
+    
+    // MARK: - metods
     
     private func setup() {
         let searchVC = SearchViewController()
@@ -34,7 +40,7 @@ class MainTabBarController: UITabBarController {
         viewControllers = [searchNC, libraryVC]
         
         tabBar.tintColor = .red
-        //        tabBar.barTintColor = .yellow
+//        tabBar.barTintColor = .yellow
         
 //        view.addSubview(trackPlayerView)
         view.insertSubview(trackPlayerView, belowSubview: tabBar)
@@ -45,6 +51,7 @@ class MainTabBarController: UITabBarController {
     }
 }
 
+// MARK: - Extensions
 
 extension MainTabBarController {
     
@@ -54,7 +61,10 @@ extension MainTabBarController {
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: { [weak self] in
             self?.view.layoutIfNeeded()
             self?.trackPlayerView.frame = frame
-            self?.trackPlayerView.mainStackView.isHidden = false
+            self?.trackPlayerView.mainStackView.alpha = 1
+            self?.trackPlayerView.miniStackView.alpha = 0
+            let yOffset = self?.tabBar.bounds.height
+            self?.tabBar.transform = CGAffineTransform(translationX: 0, y: yOffset ?? 0)
         }, completion: nil)
     }
     
@@ -64,7 +74,9 @@ extension MainTabBarController {
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: { [weak self] in
             self?.view.layoutIfNeeded()
             self?.trackPlayerView.frame = frame
-            self?.trackPlayerView.mainStackView.isHidden = true
+            self?.trackPlayerView.mainStackView.alpha = 0
+            self?.trackPlayerView.miniStackView.alpha = 1
+            self?.tabBar.transform = .identity
         }, completion: nil)
         
     }
