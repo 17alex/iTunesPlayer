@@ -44,7 +44,7 @@ class SearchViewController: UIViewController {
 
         setup()
         setupViews()
-        searchBar(searchController.searchBar, textDidChange: "red")
+        searchBar(searchController.searchBar, textDidChange: "gayazov")
     }
     
     //MARK: - Metods
@@ -84,6 +84,30 @@ class SearchViewController: UIViewController {
         tabBarDelegate?.minimizeTrackPlayerView()
     }
     
+}
+
+enum DirectionPlay {
+    case forward
+    case backward
+}
+
+extension SearchViewController {
+    
+    func getTrack(for direction: DirectionPlay) ->  Track? {
+        guard let indexPath = table.indexPathForSelectedRow else { return nil}
+        table.deselectRow(at: indexPath, animated: true)
+        var forIndexPath = indexPath
+        switch direction {
+        case .backward:
+            print("backward")
+            forIndexPath.row = indexPath.row == 0 ? tracks.count - 1 : indexPath.row - 1
+        case .forward:
+            print("forward")
+            forIndexPath.row = indexPath.row == tracks.count - 1 ? 0 : indexPath.row + 1
+        }
+        table.selectRow(at: forIndexPath, animated: true, scrollPosition: .middle)
+        return tracks[forIndexPath.row]
+    }
 }
 
 // MARK: - UITableViewDataSource
