@@ -55,10 +55,10 @@ class MainTabBarController: UITabBarController {
 
 extension MainTabBarController {
     
-    func maximizeTrackPlayerView(track: Track) {
+    func maximizeTrackPlayerView(track: Track?) {
         let frame = UIScreen.main.bounds
-        trackPlayerView.set(track: track)
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: { [weak self] in
+        if let track = track { trackPlayerView.set(track: track) }
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 1, options: .curveEaseIn, animations: { [weak self] in
             self?.view.layoutIfNeeded()
             self?.trackPlayerView.frame = frame
             self?.trackPlayerView.mainStackView.alpha = 1
@@ -71,7 +71,7 @@ extension MainTabBarController {
     func minimizeTrackPlayerView() {
         var frame = UIScreen.main.bounds
         frame.origin.y = frame.size.height - tabBar.bounds.height - 60
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: { [weak self] in
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 1, options: .curveEaseIn, animations: { [weak self] in
             self?.view.layoutIfNeeded()
             self?.trackPlayerView.frame = frame
             self?.trackPlayerView.mainStackView.alpha = 0

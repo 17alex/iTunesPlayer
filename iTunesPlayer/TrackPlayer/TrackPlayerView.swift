@@ -177,14 +177,23 @@ class TrackPlayerView: UIView {
     
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
-        
+        backgroundColor = .white
         setupMainViews()
         setupMiniViews()
-        backgroundColor = .white
+        setupGestures()
     }
     
     
     // MARK: - Metods
+    
+    private func setupGestures() {
+        miniStackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGesture)))
+    }
+    
+    @objc
+    private func tapGesture() {
+        delegate?.maximizePlayer()
+    }
     
     private func playTrack(stringURL: String?) {
         guard let stringURL = stringURL, let url = URL(string: stringURL) else { return }
@@ -230,11 +239,12 @@ class TrackPlayerView: UIView {
         player.addBoundaryTimeObserver(forTimes: times, queue: .main) { [weak self] in
             self?.enlargeIconImageView()
             self?.playPauseButton.setImage(self?.pauseImage, for: .normal)
+            self?.miniPlayPauseButton.setImage(self?.pauseImage, for: .normal)
         }
     }
     
     private func addObserveCurrentTime() {
-        let interval = CMTimeMake(value: 1, timescale: 10)
+        let interval = CMTimeMake(value: 1, timescale: 20)
         player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] (cmTime) in
             self?.elapsedTimeLabel.text = cmTime.toDisplayString()
             

@@ -84,6 +84,10 @@ class SearchViewController: UIViewController {
         tabBarDelegate?.minimizeTrackPlayerView()
     }
     
+    func maximizePlayer() {
+        tabBarDelegate?.maximizeTrackPlayerView(track: nil)
+    }
+    
 }
 
 enum DirectionPlay {
