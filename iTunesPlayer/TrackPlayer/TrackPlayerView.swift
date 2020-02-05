@@ -177,7 +177,7 @@ class TrackPlayerView: UIView {
     
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
-        backgroundColor = .white
+        backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         setupMainViews()
         setupMiniViews()
         setupGestures()
@@ -188,6 +188,12 @@ class TrackPlayerView: UIView {
     
     private func setupGestures() {
         miniStackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGesture)))
+        miniStackView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(panGesture(gesture:))))
+    }
+    
+    @objc
+    private func panGesture(gesture: UIPanGestureRecognizer) {
+        delegate?.panGesturePlayer(gesture: gesture)
     }
     
     @objc

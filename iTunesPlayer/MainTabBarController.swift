@@ -80,4 +80,41 @@ extension MainTabBarController {
         }, completion: nil)
         
     }
+    
+    func panGesturePlayer(gesture: UIPanGestureRecognizer) {
+        switch gesture.state {
+        case .began: break
+        case .changed: panGestureChanged(gesture: gesture)
+        case .ended: panGestureEnd(gesture: gesture)
+        case .possible: break
+        case .cancelled: break
+        case .failed: break
+        @unknown default: break
+        }
+    }
+    
+    private func panGestureChanged(gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: self.view)
+        let screenHeight = UIScreen.main.bounds.size.height
+        let tabbarHeight = tabBar.bounds.height
+        let newY = screenHeight - tabbarHeight - 60 + translation.y
+        trackPlayerView.frame.origin.y = newY
+        
+        let newAlpha = 1 + translation.y / 200
+        trackPlayerView.miniStackView.alpha = newAlpha < 0 ? 0 : newAlpha
+        trackPlayerView.mainStackView.alpha = -translation.y / 200
+    }
+    
+    private func panGestureEnd(gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: self.view)
+        let velocity = gesture.velocity(in: self.view)
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+            if translation.y < -200 || velocity.y < -500 {
+                self.maximizeTrackPlayerView(track: nil)
+            } else {
+                self.minimizeTrackPlayerView()
+            }
+        }, completion: nil)
+    }
 }

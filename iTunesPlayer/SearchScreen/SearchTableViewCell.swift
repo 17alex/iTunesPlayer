@@ -26,6 +26,8 @@ class SearchTableViewCell: UITableViewCell {
     private let iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .lightGray
+        imageView.layer.cornerRadius = 5
+        imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
