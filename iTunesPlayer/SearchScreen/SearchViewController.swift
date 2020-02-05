@@ -88,8 +88,11 @@ class SearchViewController: UIViewController {
         tabBarDelegate?.maximizeTrackPlayerView(track: nil)
     }
     
-    func panGesturePlayer(gesture: UIPanGestureRecognizer) {
-        tabBarDelegate?.panGesturePlayer(gesture: gesture)
+    func maximizePanGesturePlayer(gesture: UIPanGestureRecognizer) {
+        tabBarDelegate?.maximizePanGesturePlayer(gesture: gesture)
+    }
+    func minimizePanGesturePlayer(gesture: UIPanGestureRecognizer) {
+        tabBarDelegate?.minimizePanGesturePlayer(gesture: gesture)
     }
     
 }

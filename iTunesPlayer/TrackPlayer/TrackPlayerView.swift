@@ -187,18 +187,30 @@ class TrackPlayerView: UIView {
     // MARK: - Metods
     
     private func setupGestures() {
-        miniStackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGesture)))
-        miniStackView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(panGesture(gesture:))))
+        miniStackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(maximizeTapGesture)))
+        miniStackView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(maximizePanGesture(gesture:))))
+        addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(minimizePanGesture(gesture:))))
+        
     }
     
     @objc
-    private func panGesture(gesture: UIPanGestureRecognizer) {
-        delegate?.panGesturePlayer(gesture: gesture)
+    private func minimizePanGesture(gesture: UIPanGestureRecognizer) {
+        delegate?.minimizePanGesturePlayer(gesture: gesture)
     }
     
     @objc
-    private func tapGesture() {
+    private func maximizePanGesture(gesture: UIPanGestureRecognizer) {
+        delegate?.maximizePanGesturePlayer(gesture: gesture)
+    }
+    
+    @objc
+    private func maximizeTapGesture() {
         delegate?.maximizePlayer()
+    }
+    
+    @objc
+    private func minimizePlayer() {
+        delegate?.minimizePlayer()
     }
     
     private func playTrack(stringURL: String?) {
@@ -295,11 +307,6 @@ class TrackPlayerView: UIView {
         if let track = delegate?.getTrack(for: .backward) {
             set(track: track)
         }
-    }
-    
-    @objc
-    private func minimizePlayer() {
-        delegate?.minimizePlayer()
     }
     
     private func setupMainViews() {

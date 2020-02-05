@@ -81,11 +81,11 @@ extension MainTabBarController {
         
     }
     
-    func panGesturePlayer(gesture: UIPanGestureRecognizer) {
+    func maximizePanGesturePlayer(gesture: UIPanGestureRecognizer) {
         switch gesture.state {
         case .began: break
-        case .changed: panGestureChanged(gesture: gesture)
-        case .ended: panGestureEnd(gesture: gesture)
+        case .changed: maximizePanGestureChanged(gesture: gesture)
+        case .ended: maximizePanGestureEnd(gesture: gesture)
         case .possible: break
         case .cancelled: break
         case .failed: break
@@ -93,7 +93,7 @@ extension MainTabBarController {
         }
     }
     
-    private func panGestureChanged(gesture: UIPanGestureRecognizer) {
+    private func maximizePanGestureChanged(gesture: UIPanGestureRecognizer) {
         let translation = gesture.translation(in: self.view)
         let screenHeight = UIScreen.main.bounds.size.height
         let tabbarHeight = tabBar.bounds.height
@@ -105,7 +105,7 @@ extension MainTabBarController {
         trackPlayerView.mainStackView.alpha = -translation.y / 200
     }
     
-    private func panGestureEnd(gesture: UIPanGestureRecognizer) {
+    private func maximizePanGestureEnd(gesture: UIPanGestureRecognizer) {
         let translation = gesture.translation(in: self.view)
         let velocity = gesture.velocity(in: self.view)
         
@@ -114,6 +114,36 @@ extension MainTabBarController {
                 self.maximizeTrackPlayerView(track: nil)
             } else {
                 self.minimizeTrackPlayerView()
+            }
+        }, completion: nil)
+    }
+    
+    func minimizePanGesturePlayer(gesture: UIPanGestureRecognizer) {
+        switch gesture.state {
+        case .began: break
+        case .changed: minimizePanGestureChanged(gesture: gesture)
+        case .ended: minimizePanGestureEnd(gesture: gesture)
+        case .possible: break
+        case .cancelled: break
+        case .failed: break
+        @unknown default: break
+        }
+    }
+    
+    private func minimizePanGestureChanged(gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: self.view)
+        trackPlayerView.frame.origin.y = translation.y
+    }
+    
+    private func minimizePanGestureEnd(gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: self.view)
+        let velocity = gesture.velocity(in: self.view)
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+            if translation.y > 200 || velocity.y > 500 {
+                self.minimizeTrackPlayerView()
+            } else {
+                self.maximizeTrackPlayerView(track: nil)
             }
         }, completion: nil)
     }
