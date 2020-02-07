@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="19A583" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="StoreTrack" representedClassName=".StoreTrack" syncable="YES">
+        <attribute name="artistName" optional="YES" attributeType="String"/>
+        <attribute name="artworkUrl60" optional="YES" attributeType="String"/>
+        <attribute name="previewUrl" optional="YES" attributeType="String"/>
+        <attribute name="trackName" optional="YES" attributeType="String"/>
+    </entity>
+    <elements>
+        <element name="StoreTrack" positionX="-63" positionY="-18" width="128" height="103"/>
+    </elements>
+</model>

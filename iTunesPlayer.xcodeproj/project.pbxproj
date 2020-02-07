@@ -22,6 +22,10 @@
 		FAC9833023D081B4008A7CCA /* SearchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC9832F23D081B4008A7CCA /* SearchPresenter.swift */; };
 		FADA614B23D087230044E019 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADA614A23D087230044E019 /* DataProvider.swift */; };
 		FAEBBD9323E3094600B6F244 /* CMTime + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEBBD9223E3094600B6F244 /* CMTime + Extension.swift */; };
+		FAF9C66C23ED547900EDFBB5 /* PersistentStore.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FAF9C66A23ED547900EDFBB5 /* PersistentStore.xcdatamodeld */; };
+		FAF9C66E23ED555900EDFBB5 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF9C66D23ED555900EDFBB5 /* StoreManager.swift */; };
+		FAF9C67123ED560700EDFBB5 /* StoreTrack+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF9C66F23ED560700EDFBB5 /* StoreTrack+CoreDataClass.swift */; };
+		FAF9C67223ED560700EDFBB5 /* StoreTrack+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF9C67023ED560700EDFBB5 /* StoreTrack+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +46,10 @@
 		FAC9832F23D081B4008A7CCA /* SearchPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPresenter.swift; sourceTree = "<group>"; };
 		FADA614A23D087230044E019 /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
 		FAEBBD9223E3094600B6F244 /* CMTime + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMTime + Extension.swift"; sourceTree = "<group>"; };
+		FAF9C66B23ED547900EDFBB5 /* PersistentStore.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PersistentStore.xcdatamodel; sourceTree = "<group>"; };
+		FAF9C66D23ED555900EDFBB5 /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
+		FAF9C66F23ED560700EDFBB5 /* StoreTrack+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StoreTrack+CoreDataClass.swift"; sourceTree = "<group>"; };
+		FAF9C67023ED560700EDFBB5 /* StoreTrack+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StoreTrack+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +74,8 @@
 		FAC9830423D05753008A7CCA = {
 			isa = PBXGroup;
 			children = (
+				FAF9C66F23ED560700EDFBB5 /* StoreTrack+CoreDataClass.swift */,
+				FAF9C67023ED560700EDFBB5 /* StoreTrack+CoreDataProperties.swift */,
 				FAC9830F23D05753008A7CCA /* iTunesPlayer */,
 				FAC9830E23D05753008A7CCA /* Products */,
 			);
@@ -88,10 +98,12 @@
 				FAC9832C23D08168008A7CCA /* SearchScreen */,
 				FA70998C23D1D1C700C7E1AA /* TrackPlayer */,
 				FAC9832823D05AF2008A7CCA /* LibraryViewController.swift */,
+				FAF9C66D23ED555900EDFBB5 /* StoreManager.swift */,
 				FAEBBD9223E3094600B6F244 /* CMTime + Extension.swift */,
 				FAC9832A23D07D94008A7CCA /* ResponsModel.swift */,
 				FADA614A23D087230044E019 /* DataProvider.swift */,
 				FAB8792F23D092D500A99957 /* Extension + UIViewController.swift */,
+				FAF9C66A23ED547900EDFBB5 /* PersistentStore.xcdatamodeld */,
 				FAC9831923D05763008A7CCA /* Assets.xcassets */,
 				FAC9831B23D05763008A7CCA /* LaunchScreen.storyboard */,
 				FAC9831E23D05763008A7CCA /* Info.plist */,
@@ -190,9 +202,13 @@
 				FAC9831323D05753008A7CCA /* SceneDelegate.swift in Sources */,
 				FAB8793023D092D500A99957 /* Extension + UIViewController.swift in Sources */,
 				FADA614B23D087230044E019 /* DataProvider.swift in Sources */,
+				FAF9C66C23ED547900EDFBB5 /* PersistentStore.xcdatamodeld in Sources */,
 				FAC9833023D081B4008A7CCA /* SearchPresenter.swift in Sources */,
+				FAF9C66E23ED555900EDFBB5 /* StoreManager.swift in Sources */,
 				FAEBBD9323E3094600B6F244 /* CMTime + Extension.swift in Sources */,
 				FAC9832E23D0819D008A7CCA /* SearchInteractor.swift in Sources */,
+				FAF9C67123ED560700EDFBB5 /* StoreTrack+CoreDataClass.swift in Sources */,
+				FAF9C67223ED560700EDFBB5 /* StoreTrack+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -386,6 +402,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		FAF9C66A23ED547900EDFBB5 /* PersistentStore.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				FAF9C66B23ED547900EDFBB5 /* PersistentStore.xcdatamodel */,
+			);
+			currentVersion = FAF9C66B23ED547900EDFBB5 /* PersistentStore.xcdatamodel */;
+			path = PersistentStore.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = FAC9830523D05753008A7CCA /* Project object */;
 }

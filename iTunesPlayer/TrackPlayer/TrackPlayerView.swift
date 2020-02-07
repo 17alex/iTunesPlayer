@@ -195,12 +195,12 @@ class TrackPlayerView: UIView {
     
     @objc
     private func minimizePanGesture(gesture: UIPanGestureRecognizer) {
-        delegate?.minimizePanGesturePlayer(gesture: gesture)
+        delegate?.minimizePlayerPanGesture(gesture: gesture)
     }
     
     @objc
     private func maximizePanGesture(gesture: UIPanGestureRecognizer) {
-        delegate?.maximizePanGesturePlayer(gesture: gesture)
+        delegate?.maximizePlayerPanGesture(gesture: gesture)
     }
     
     @objc
