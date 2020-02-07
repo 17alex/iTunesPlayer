@@ -11,7 +11,7 @@ import CoreData
 
 class StoreManager {
     
-    var tracks: [StoreTrack] = []
+    var storeTracks: [StoreTrack] = []
     
     // MARK: - Core Data stack
 
@@ -41,22 +41,41 @@ class StoreManager {
         }
     }
     
-    func loadTracks() {
+    func loadStoreTracks() {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "StoreTrack")
         if let tracks = try? context.fetch(fetchRequest) as? [StoreTrack] {
-            self.tracks =  tracks
+            self.storeTracks =  tracks
         }
+        print("storeTracks count = \(storeTracks.count)")
     }
     
     func deleteTrack(index: Int) {
-        context.delete(tracks.remove(at: index))
+        context.delete(storeTracks.remove(at: index))
         saveContext ()
     }
     
-    func addTrackToStore(name: String, artistName: String) {
-        let track = StoreTrack(context: context)
-        track.trackName = name
-        track.artistName = artistName
+    func addTrackToStore(track: Track) {
+        let storeTrack = StoreTrack(context: context)
+        storeTrack.trackName = track.trackName
+        storeTrack.artistName = track.artistName
+        storeTrack.artworkUrl60 = track.artworkUrl60
+        storeTrack.previewUrl = track.previewUrl
         saveContext ()
+    }
+    
+    // MARK: - Metods
+    
+    func containsTrack(track: Track) -> Bool {
+        let tmpTrack = StoreTrack(context: context)
+        tmpTrack.trackName = track.trackName
+        tmpTrack.artistName = track.artistName
+        tmpTrack.artworkUrl60 = track.artworkUrl60
+        tmpTrack.previewUrl = track.previewUrl
+        defer {
+            context.delete(tmpTrack)
+        }
+        let st = storeTracks.contains(tmpTrack)
+        print("containsTrack = \(st)")
+        return st
     }
 }

@@ -14,6 +14,7 @@ class SearchViewController: UIViewController {
     private var presenter: SearchPresenter!
     private var interactor: SearchInteractor!
     private var dataProvider: DataProvider!
+    private var storeManager: StoreManager!
     
     private var timer: Timer?
     private var tracks: [Track] = []
@@ -23,7 +24,7 @@ class SearchViewController: UIViewController {
     
     private lazy var table: UITableView = {
         let table = UITableView()
-        table.register(SearchTableViewCell.self, forCellReuseIdentifier: "cell")
+        table.register(TrackTableViewCell.self, forCellReuseIdentifier: "cell")
         table.translatesAutoresizingMaskIntoConstraints = false
         table.dataSource = self
         table.delegate = self
@@ -44,6 +45,7 @@ class SearchViewController: UIViewController {
 
         setup()
         setupViews()
+        storeManager.loadStoreTracks()
         searchBar(searchController.searchBar, textDidChange: "gayazov")
     }
     
@@ -53,6 +55,7 @@ class SearchViewController: UIViewController {
         presenter = SearchPresenter(searchView: self)
         dataProvider = DataProvider()
         interactor = SearchInteractor(presenter: presenter, dataProvider: dataProvider)
+        storeManager = StoreManager()
     }
     
     private func setupViews() {
@@ -75,10 +78,6 @@ class SearchViewController: UIViewController {
     func presentAlert(with text: String) {
         showAlert(with: text)
     }
-
-    func getImage(from urlString: String?, complete: @escaping ((UIImage?) -> Void)) {
-        interactor.getImageData(from: urlString, complete: complete)
-    }
     
     func minimizePlayer() {
         tabBarDelegate?.minimizeTrackPlayerView()
@@ -91,8 +90,15 @@ class SearchViewController: UIViewController {
     func maximizePlayerPanGesture(gesture: UIPanGestureRecognizer) {
         tabBarDelegate?.maximizePanGesturePlayer(gesture: gesture)
     }
+    
     func minimizePlayerPanGesture(gesture: UIPanGestureRecognizer) {
         tabBarDelegate?.minimizePanGesturePlayer(gesture: gesture)
+    }
+    
+    func pressPlusButton(button: UIButton) {
+        guard let cell = button.superview as? TrackTableViewCell,
+            let index = table.indexPath(for: cell) else { return }
+        storeManager.addTrackToStore(track: tracks[index.row])
     }
     
 }
@@ -130,9 +136,11 @@ extension SearchViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SearchTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TrackTableViewCell
         cell.delegate = self
-        cell.set(track: tracks[indexPath.row])
+        let track = tracks[indexPath.row]
+        let hidden = storeManager.containsTrack(track: track)
+        cell.set(track: track, hiddenPlus: hidden)
         return cell
     }
     
@@ -145,8 +153,6 @@ extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let track = tracks[indexPath.row]
         tabBarDelegate?.maximizeTrackPlayerView(track: track)
-//          keyWindow.addSubview(trackPlayerView)
-//        keyWindow.insertSubview(trackPlayerView, belowSubview: tabBarDelegate!.tabBar)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -170,4 +176,12 @@ extension SearchViewController: UISearchBarDelegate {
     
 }
 
+// MARK: - TrackTableViewCellProtocol
 
+extension SearchViewController: TrackTableViewCellProtocol {
+    
+    func getImage(from urlString: String?, complete: @escaping ((UIImage?) -> Void)) {
+        interactor.getImageData(from: urlString, complete: complete)
+    }
+    
+}

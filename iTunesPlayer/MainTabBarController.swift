@@ -27,6 +27,7 @@ class MainTabBarController: UITabBarController {
     private func setup() {
         let searchVC = SearchViewController()
         searchVC.tabBarDelegate = self
+        
         let searchNC = UINavigationController(rootViewController: searchVC)
         searchNC.navigationBar.topItem?.title = "Search"
         searchNC.navigationBar.prefersLargeTitles = true
@@ -34,10 +35,14 @@ class MainTabBarController: UITabBarController {
         searchNC.tabBarItem.image = UIImage(systemName: "doc.text.magnifyingglass")
         
         let libraryVC = LibraryViewController()
-        libraryVC.tabBarItem.title = "Library"
-        libraryVC.tabBarItem.image = UIImage(systemName: "doc.plaintext")
+        let libraryNC = UINavigationController(rootViewController: libraryVC)
         
-        viewControllers = [searchNC, libraryVC]
+        libraryNC.navigationBar.topItem?.title = "Library"
+        libraryNC.navigationBar.prefersLargeTitles = true
+        libraryNC.tabBarItem.title = "Library"
+        libraryNC.tabBarItem.image = UIImage(systemName: "doc.plaintext")
+        
+        viewControllers = [searchNC, libraryNC]
         
         tabBar.tintColor = .red
 //        tabBar.barTintColor = .yellow

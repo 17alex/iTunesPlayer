@@ -8,13 +8,17 @@
 
 import UIKit
 
-class SearchTableViewCell: UITableViewCell {
+protocol TrackTableViewCellProtocol: class {
+    
+    func getImage(from urlString: String?, complete: @escaping ((UIImage?) -> Void))
+    func pressPlusButton(button: UIButton)
+}
+
+class TrackTableViewCell: UITableViewCell {
     
     // MARK: - Propertis
     
-    weak var delegate: SearchViewController?
-    
-    var isHiddenPlusButton: Bool = false
+    weak var delegate: TrackTableViewCellProtocol?
     
     private var track: Track! {
         didSet{
@@ -56,7 +60,7 @@ class SearchTableViewCell: UITableViewCell {
         button.setImage(UIImage(systemName: "plus"), for: .normal)
         button.tintColor = .black
 //        button.backgroundColor = .orange
-        button.addTarget(self, action: #selector(plusButtonPress), for: .touchUpInside)
+        
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -78,8 +82,8 @@ class SearchTableViewCell: UITableViewCell {
     // MARK: - Metods
     
     @objc
-    private func plusButtonPress() {
-        
+    private func plusButtonPress(button: UIButton) {
+        delegate?.pressPlusButton(button: button)
     }
     
     private func setIconImage(with stringUrl: String?) {
@@ -89,8 +93,9 @@ class SearchTableViewCell: UITableViewCell {
         })
     }
     
-    func set(track: Track) {
+    func set(track: Track, hiddenPlus: Bool) {
         self.track = track
+        plusButton.isHidden = hiddenPlus
     }
     
     private func setupViews() {
@@ -117,5 +122,6 @@ class SearchTableViewCell: UITableViewCell {
         plusButton.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         plusButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2).isActive = true
         plusButton.widthAnchor.constraint(equalTo: plusButton.heightAnchor).isActive = true
+        plusButton.addTarget(self, action: #selector(plusButtonPress(button:)), for: .touchUpInside)
     }
 }
