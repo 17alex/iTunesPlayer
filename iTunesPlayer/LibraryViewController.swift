@@ -32,7 +32,13 @@ class LibraryViewController: UIViewController {
 
         setup()
         setupViews()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         storeManager.loadStoreTracks()
+        table.reloadData()
     }
     
     //MARK: - Metods

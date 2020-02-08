@@ -74,8 +74,8 @@ class StoreManager {
         defer {
             context.delete(tmpTrack)
         }
-        let st = storeTracks.contains(tmpTrack)
-        print("containsTrack = \(st)")
-        return st
+        let isContains = storeTracks.contains(tmpTrack)
+        print("containsTrack = \(isContains)")
+        return isContains
     }
 }
