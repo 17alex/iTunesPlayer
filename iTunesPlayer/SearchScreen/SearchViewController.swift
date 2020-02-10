@@ -49,6 +49,11 @@ class SearchViewController: UIViewController {
         searchBar(searchController.searchBar, textDidChange: "gayazov")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarDelegate?.trackPlayerView.delegate = self
+    }
+    
     //MARK: - Metods
     
     private func setup() {
@@ -79,52 +84,11 @@ class SearchViewController: UIViewController {
         showAlert(with: text)
     }
     
-    func minimizePlayer() {
-        tabBarDelegate?.minimizeTrackPlayerView()
-    }
-    
-    func maximizePlayer() {
-        tabBarDelegate?.maximizeTrackPlayerView(track: nil)
-    }
-    
-    func maximizePlayerPanGesture(gesture: UIPanGestureRecognizer) {
-        tabBarDelegate?.maximizePanGesturePlayer(gesture: gesture)
-    }
-    
-    func minimizePlayerPanGesture(gesture: UIPanGestureRecognizer) {
-        tabBarDelegate?.minimizePanGesturePlayer(gesture: gesture)
-    }
-    
-    func pressPlusButton(button: UIButton) {
-        guard let cell = button.superview as? TrackTableViewCell,
-            let index = table.indexPath(for: cell) else { return }
-        storeManager.addTrackToStore(track: tracks[index.row])
-    }
-    
 }
 
 enum DirectionPlay {
     case forward
     case backward
-}
-
-extension SearchViewController {
-    
-    func getTrack(for direction: DirectionPlay) ->  Track? {
-        guard let indexPath = table.indexPathForSelectedRow else { return nil}
-        table.deselectRow(at: indexPath, animated: true)
-        var forIndexPath = indexPath
-        switch direction {
-        case .backward:
-            print("backward")
-            forIndexPath.row = indexPath.row == 0 ? tracks.count - 1 : indexPath.row - 1
-        case .forward:
-            print("forward")
-            forIndexPath.row = indexPath.row == tracks.count - 1 ? 0 : indexPath.row + 1
-        }
-        table.selectRow(at: forIndexPath, animated: true, scrollPosition: .middle)
-        return tracks[forIndexPath.row]
-    }
 }
 
 // MARK: - UITableViewDataSource
@@ -178,10 +142,44 @@ extension SearchViewController: UISearchBarDelegate {
 
 // MARK: - TrackTableViewCellProtocol
 
-extension SearchViewController: TrackTableViewCellProtocol {
+extension SearchViewController: TrackTableViewCellProtocol, TrackPlayerProtocol {
+    
+    func minimizePlayer() {
+        tabBarDelegate?.minimizeTrackPlayerView()
+    }
+    
+    func maximizePlayer() {
+        tabBarDelegate?.maximizeTrackPlayerView(track: nil)
+    }
+
+    func maximizePlayerPanGesture(gesture: UIPanGestureRecognizer) {
+        tabBarDelegate?.maximizePanGesturePlayer(gesture: gesture)
+    }
+    
+    func minimizePlayerPanGesture(gesture: UIPanGestureRecognizer) {
+        tabBarDelegate?.minimizePanGesturePlayer(gesture: gesture)
+    }
     
     func getImage(from urlString: String?, complete: @escaping ((UIImage?) -> Void)) {
         interactor.getImageData(from: urlString, complete: complete)
     }
     
+    func pressPlusButton(button: UIButton) {
+        guard let cell = button.superview as? TrackTableViewCell,
+            let index = table.indexPath(for: cell) else { return }
+        storeManager.addTrackToStore(track: tracks[index.row])
+        print("storeManager.addTrackToStore indexPath = \(index)")
+    }
+    
+    func getTrack(for direction: DirectionPlay) ->  Track? {
+        guard let indexPath = table.indexPathForSelectedRow else { return nil}
+        table.deselectRow(at: indexPath, animated: true)
+        var forIndexPath = indexPath
+        switch direction {
+        case .backward: forIndexPath.row = indexPath.row == 0 ? tracks.count - 1 : indexPath.row - 1
+        case .forward: forIndexPath.row = indexPath.row == tracks.count - 1 ? 0 : indexPath.row + 1
+        }
+        table.selectRow(at: forIndexPath, animated: true, scrollPosition: .middle)
+        return tracks[forIndexPath.row]
+    }
 }

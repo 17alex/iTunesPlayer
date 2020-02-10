@@ -9,13 +9,23 @@
 import UIKit
 import  AVKit
 
+protocol TrackPlayerProtocol: class {
+    func minimizePlayerPanGesture(gesture: UIPanGestureRecognizer)
+    func maximizePlayerPanGesture(gesture: UIPanGestureRecognizer)
+    func maximizePlayer()
+    func minimizePlayer()
+    func getImage(from urlString: String?, complete: @escaping ((UIImage?) -> Void))
+    func getTrack(for direction: DirectionPlay) ->  Track?
+    
+}
+
 class TrackPlayerView: UIView {
     
     // MARK: - Property
     
     var mainStackView: UIStackView!
     var miniStackView: UIStackView!
-    weak var delegate: SearchViewController?
+    weak var delegate: TrackPlayerProtocol?
     
     private let player: AVPlayer = {
         let player = AVPlayer()

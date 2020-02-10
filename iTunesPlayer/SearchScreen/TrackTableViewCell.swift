@@ -58,7 +58,7 @@ class TrackTableViewCell: UITableViewCell {
     private let plusButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "plus"), for: .normal)
-        button.tintColor = .black
+        button.tintColor = .red
 //        button.backgroundColor = .orange
         
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -84,6 +84,7 @@ class TrackTableViewCell: UITableViewCell {
     @objc
     private func plusButtonPress(button: UIButton) {
         delegate?.pressPlusButton(button: button)
+        plusButton.isHidden = true
     }
     
     private func setIconImage(with stringUrl: String?) {

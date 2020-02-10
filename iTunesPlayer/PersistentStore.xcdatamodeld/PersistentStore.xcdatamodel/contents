@@ -4,9 +4,10 @@
         <attribute name="artistName" optional="YES" attributeType="String"/>
         <attribute name="artworkUrl60" optional="YES" attributeType="String"/>
         <attribute name="previewUrl" optional="YES" attributeType="String"/>
+        <attribute name="trackId" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="trackName" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="StoreTrack" positionX="-63" positionY="-18" width="128" height="103"/>
+        <element name="StoreTrack" positionX="-63" positionY="-18" width="128" height="118"/>
     </elements>
 </model>

@@ -19,7 +19,7 @@ class StoreManager {
         let container = NSPersistentContainer(name: "PersistentStore")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
+                fatalError("loadPersistentStores >>> Unresolved error \(error), \(error.userInfo)")
             }
         })
         return container
@@ -36,17 +36,20 @@ class StoreManager {
                 try context.save()
             } catch {
                 let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                fatalError("saveContext >>> Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
     }
     
     func loadStoreTracks() {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "StoreTrack")
-        if let tracks = try? context.fetch(fetchRequest) as? [StoreTrack] {
+        let fetchRequest = NSFetchRequest<StoreTrack>(entityName: "StoreTrack")
+        do {
+            let tracks = try context.fetch(fetchRequest)
             self.storeTracks =  tracks
+            print("storeTracks count = \(storeTracks.count)")
+        } catch let error {
+            fatalError("loadStoreTracks >>> \(error.localizedDescription)")
         }
-        print("storeTracks count = \(storeTracks.count)")
     }
     
     func deleteTrack(index: Int) {
@@ -55,27 +58,31 @@ class StoreManager {
     }
     
     func addTrackToStore(track: Track) {
-        let storeTrack = StoreTrack(context: context)
-        storeTrack.trackName = track.trackName
-        storeTrack.artistName = track.artistName
-        storeTrack.artworkUrl60 = track.artworkUrl60
-        storeTrack.previewUrl = track.previewUrl
+        let addStoreTrack = StoreTrack(context: context)
+        addStoreTrack.trackName = track.trackName
+        addStoreTrack.artistName = track.artistName
+        addStoreTrack.artworkUrl60 = track.artworkUrl60
+        addStoreTrack.previewUrl = track.previewUrl
+        print("track.trackId =  \(track.trackId)")
+        addStoreTrack.trackId = Int64(track.trackId)
         saveContext ()
+        storeTracks.append(addStoreTrack)
     }
     
     // MARK: - Metods
     
     func containsTrack(track: Track) -> Bool {
-        let tmpTrack = StoreTrack(context: context)
-        tmpTrack.trackName = track.trackName
-        tmpTrack.artistName = track.artistName
-        tmpTrack.artworkUrl60 = track.artworkUrl60
-        tmpTrack.previewUrl = track.previewUrl
-        defer {
-            context.delete(tmpTrack)
+        let fetchRequest = NSFetchRequest<StoreTrack>(entityName: "StoreTrack")
+        fetchRequest.predicate = NSPredicate(format: "trackId = %@", "\(track.trackId)")
+        do {
+            let tracks = try context.fetch(fetchRequest)
+            if tracks.count > 0 {
+                return true
+            }
+            return false
+        } catch let error {
+            fatalError("loadStoreTracks >>> \(error.localizedDescription)")
         }
-        let isContains = storeTracks.contains(tmpTrack)
-        print("containsTrack = \(isContains)")
-        return isContains
     }
+    
 }

@@ -35,8 +35,9 @@ class MainTabBarController: UITabBarController {
         searchNC.tabBarItem.image = UIImage(systemName: "doc.text.magnifyingglass")
         
         let libraryVC = LibraryViewController()
-        let libraryNC = UINavigationController(rootViewController: libraryVC)
+        libraryVC.tabBarDelegate = self
         
+        let libraryNC = UINavigationController(rootViewController: libraryVC)
         libraryNC.navigationBar.topItem?.title = "Library"
         libraryNC.navigationBar.prefersLargeTitles = true
         libraryNC.tabBarItem.title = "Library"
@@ -45,9 +46,7 @@ class MainTabBarController: UITabBarController {
         viewControllers = [searchNC, libraryNC]
         
         tabBar.tintColor = .red
-//        tabBar.barTintColor = .yellow
         
-//        view.addSubview(trackPlayerView)
         view.insertSubview(trackPlayerView, belowSubview: tabBar)
         trackPlayerView.delegate = searchVC
         var frame = UIScreen.main.bounds

@@ -16,6 +16,8 @@ class LibraryViewController: UIViewController {
     private var dataProvider: DataProvider!
     private var storeManager: StoreManager!
     
+    weak var tabBarDelegate: MainTabBarController?
+    
     private lazy var table: UITableView = {
         let table = UITableView()
         table.register(TrackTableViewCell.self, forCellReuseIdentifier: "cell")
@@ -39,6 +41,7 @@ class LibraryViewController: UIViewController {
         super.viewWillAppear(animated)
         storeManager.loadStoreTracks()
         table.reloadData()
+        tabBarDelegate?.trackPlayerView.delegate = self
     }
     
     //MARK: - Metods
@@ -77,7 +80,8 @@ extension LibraryViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TrackTableViewCell
         cell.delegate = self
         let storeTrack = storeManager.storeTracks[indexPath.row]
-        let track = Track(artistName: storeTrack.artistName,
+        let track = Track(trackId: Int(storeTrack.trackId),
+                          artistName: storeTrack.artistName,
                           trackName: storeTrack.trackName,
                           artworkUrl60: storeTrack.artworkUrl60,
                           previewUrl: storeTrack.previewUrl)
@@ -91,15 +95,61 @@ extension LibraryViewController: UITableViewDataSource {
 
 extension LibraryViewController: UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let storeTrack = storeManager.storeTracks[indexPath.row]
+        let track = Track(trackId: Int(storeTrack.trackId),
+                          artistName: storeTrack.artistName,
+                          trackName: storeTrack.trackName,
+                          artworkUrl60: storeTrack.artworkUrl60,
+                          previewUrl: storeTrack.previewUrl)
+        tabBarDelegate?.maximizeTrackPlayerView(track: track)
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
+    
+    
     
 }
 
 // MARK: - TrackTableViewCellProtocol
 
-extension LibraryViewController: TrackTableViewCellProtocol {
+extension LibraryViewController: TrackTableViewCellProtocol, TrackPlayerProtocol {
+    
+    func minimizePlayerPanGesture(gesture: UIPanGestureRecognizer) {
+        tabBarDelegate?.minimizePanGesturePlayer(gesture: gesture)
+    }
+    
+    func maximizePlayerPanGesture(gesture: UIPanGestureRecognizer) {
+        tabBarDelegate?.maximizePanGesturePlayer(gesture: gesture)
+    }
+    
+    func maximizePlayer() {
+        tabBarDelegate?.maximizeTrackPlayerView(track: nil)
+    }
+    
+    func minimizePlayer() {
+        tabBarDelegate?.minimizeTrackPlayerView()
+    }
+    
+    func getTrack(for direction: DirectionPlay) -> Track? {
+        guard let indexPath = table.indexPathForSelectedRow else { return nil}
+        table.deselectRow(at: indexPath, animated: true)
+        var forIndexPath = indexPath
+        switch direction {
+        case .backward: forIndexPath.row = indexPath.row == 0 ? storeManager.storeTracks.count - 1 : indexPath.row - 1
+        case .forward: forIndexPath.row = indexPath.row == storeManager.storeTracks.count - 1 ? 0 : indexPath.row + 1
+        }
+        table.selectRow(at: forIndexPath, animated: true, scrollPosition: .middle)
+        let storeTrack = storeManager.storeTracks[forIndexPath.row]
+        let track = Track(trackId: Int(storeTrack.trackId),
+                          artistName: storeTrack.artistName,
+                          trackName: storeTrack.trackName,
+                          artworkUrl60: storeTrack.artworkUrl60,
+                          previewUrl: storeTrack.previewUrl)
+        return track
+    }
     
     func pressPlusButton(button: UIButton) {
         
