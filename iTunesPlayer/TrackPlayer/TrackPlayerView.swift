@@ -129,7 +129,7 @@ class TrackPlayerView: UIView {
         let button = UIButton(type: .system)
         button.setImage(pauseImage, for: .normal)
         button.tintColor = .black
-        button.addTarget(self, action: #selector(playPayseButtonPress), for: .touchUpInside)
+        button.addTarget(self, action: #selector(playPauseButtonPress), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -138,7 +138,7 @@ class TrackPlayerView: UIView {
         let button = UIButton(type: .system)
         button.setImage(pauseImage, for: .normal)
         button.tintColor = .black
-        button.addTarget(self, action: #selector(playPayseButtonPress), for: .touchUpInside)
+        button.addTarget(self, action: #selector(playPauseButtonPress), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -289,7 +289,7 @@ class TrackPlayerView: UIView {
     }
     
     @objc
-    private func playPayseButtonPress() {
+    private func playPauseButtonPress() {
         if player.timeControlStatus == .paused {
             player.play()
             playPauseButton.setImage(pauseImage, for: .normal)
@@ -319,7 +319,11 @@ class TrackPlayerView: UIView {
     
     @objc
     private func timeSliderChanged() {
-        print("timeSliderChanged = \(timeSlider.value)")
+        guard let trackDuration = player.currentItem?.duration else { return }
+        let trackDurationInSec = CMTimeGetSeconds(trackDuration)
+        let seekTimeInSec = Float64(timeSlider.value) * trackDurationInSec
+        let seekTime = CMTimeMakeWithSeconds(seekTimeInSec, preferredTimescale: 1)
+        player.seek(to: seekTime)
     }
     
     @objc
