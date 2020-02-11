@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		FA70998E23D1D21100C7E1AA /* TrackPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA70998D23D1D21100C7E1AA /* TrackPlayerView.swift */; };
-		FAB8793023D092D500A99957 /* Extension + UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB8792F23D092D500A99957 /* Extension + UIViewController.swift */; };
+		FAB8793023D092D500A99957 /* UIViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB8792F23D092D500A99957 /* UIViewController + Extension.swift */; };
 		FAB8793223D095C200A99957 /* TrackTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB8793123D095C200A99957 /* TrackTableViewCell.swift */; };
 		FAC9831123D05753008A7CCA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC9831023D05753008A7CCA /* AppDelegate.swift */; };
 		FAC9831323D05753008A7CCA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC9831223D05753008A7CCA /* SceneDelegate.swift */; };
@@ -32,7 +32,7 @@
 
 /* Begin PBXFileReference section */
 		FA70998D23D1D21100C7E1AA /* TrackPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackPlayerView.swift; sourceTree = "<group>"; };
-		FAB8792F23D092D500A99957 /* Extension + UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIViewController.swift"; sourceTree = "<group>"; };
+		FAB8792F23D092D500A99957 /* UIViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Extension.swift"; sourceTree = "<group>"; };
 		FAB8793123D095C200A99957 /* TrackTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableViewCell.swift; sourceTree = "<group>"; };
 		FAC9830D23D05753008A7CCA /* iTunesPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTunesPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAC9831023D05753008A7CCA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -78,8 +78,7 @@
 		FAC9830423D05753008A7CCA = {
 			isa = PBXGroup;
 			children = (
-				FAF9C66F23ED560700EDFBB5 /* StoreTrack+CoreDataClass.swift */,
-				FAF9C67023ED560700EDFBB5 /* StoreTrack+CoreDataProperties.swift */,
+				FAF786AD23F294BD0005B9A3 /* Models */,
 				FAC9830F23D05753008A7CCA /* iTunesPlayer */,
 				FAC9830E23D05753008A7CCA /* Products */,
 			);
@@ -99,17 +98,12 @@
 				FAC9831023D05753008A7CCA /* AppDelegate.swift */,
 				FAC9831223D05753008A7CCA /* SceneDelegate.swift */,
 				FAC9832423D05A5F008A7CCA /* MainTabBarController.swift */,
-				FAC9832C23D08168008A7CCA /* SearchScreen */,
 				FA70998C23D1D1C700C7E1AA /* TrackPlayer */,
-				FAC9832823D05AF2008A7CCA /* LibraryViewController.swift */,
-				FAF9C67523ED985700EDFBB5 /* LibraryPresenter.swift */,
-				FAF9C67323ED984700EDFBB5 /* LibraryInteractor.swift */,
-				FAF9C66D23ED555900EDFBB5 /* StoreManager.swift */,
-				FAEBBD9223E3094600B6F244 /* CMTime + Extension.swift */,
-				FAC9832A23D07D94008A7CCA /* ResponsModel.swift */,
-				FADA614A23D087230044E019 /* DataProvider.swift */,
-				FAB8792F23D092D500A99957 /* Extension + UIViewController.swift */,
-				FAF9C66A23ED547900EDFBB5 /* PersistentStore.xcdatamodeld */,
+				FAC9832C23D08168008A7CCA /* SearchScreen */,
+				FAF786AC23F294A00005B9A3 /* LibraryScreen */,
+				FAF786AE23F294EE0005B9A3 /* Store */,
+				FAF786AF23F2950A0005B9A3 /* DataProvider */,
+				FAF786B023F2953E0005B9A3 /* Extensions */,
 				FAC9831923D05763008A7CCA /* Assets.xcassets */,
 				FAC9831B23D05763008A7CCA /* LaunchScreen.storyboard */,
 				FAC9831E23D05763008A7CCA /* Info.plist */,
@@ -126,6 +120,52 @@
 				FAB8793123D095C200A99957 /* TrackTableViewCell.swift */,
 			);
 			path = SearchScreen;
+			sourceTree = "<group>";
+		};
+		FAF786AC23F294A00005B9A3 /* LibraryScreen */ = {
+			isa = PBXGroup;
+			children = (
+				FAC9832823D05AF2008A7CCA /* LibraryViewController.swift */,
+				FAF9C67523ED985700EDFBB5 /* LibraryPresenter.swift */,
+				FAF9C67323ED984700EDFBB5 /* LibraryInteractor.swift */,
+			);
+			path = LibraryScreen;
+			sourceTree = "<group>";
+		};
+		FAF786AD23F294BD0005B9A3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FAC9832A23D07D94008A7CCA /* ResponsModel.swift */,
+				FAF9C66F23ED560700EDFBB5 /* StoreTrack+CoreDataClass.swift */,
+				FAF9C67023ED560700EDFBB5 /* StoreTrack+CoreDataProperties.swift */,
+				FAF9C66A23ED547900EDFBB5 /* PersistentStore.xcdatamodeld */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		FAF786AE23F294EE0005B9A3 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				FAF9C66D23ED555900EDFBB5 /* StoreManager.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
+		FAF786AF23F2950A0005B9A3 /* DataProvider */ = {
+			isa = PBXGroup;
+			children = (
+				FADA614A23D087230044E019 /* DataProvider.swift */,
+			);
+			path = DataProvider;
+			sourceTree = "<group>";
+		};
+		FAF786B023F2953E0005B9A3 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				FAEBBD9223E3094600B6F244 /* CMTime + Extension.swift */,
+				FAB8792F23D092D500A99957 /* UIViewController + Extension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -207,7 +247,7 @@
 				FAB8793223D095C200A99957 /* TrackTableViewCell.swift in Sources */,
 				FAC9832523D05A5F008A7CCA /* MainTabBarController.swift in Sources */,
 				FAC9831323D05753008A7CCA /* SceneDelegate.swift in Sources */,
-				FAB8793023D092D500A99957 /* Extension + UIViewController.swift in Sources */,
+				FAB8793023D092D500A99957 /* UIViewController + Extension.swift in Sources */,
 				FADA614B23D087230044E019 /* DataProvider.swift in Sources */,
 				FAF9C66C23ED547900EDFBB5 /* PersistentStore.xcdatamodeld in Sources */,
 				FAC9833023D081B4008A7CCA /* SearchPresenter.swift in Sources */,
@@ -356,6 +396,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PSSGUD5C34;
 				INFOPLIST_FILE = iTunesPlayer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -376,6 +417,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PSSGUD5C34;
 				INFOPLIST_FILE = iTunesPlayer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

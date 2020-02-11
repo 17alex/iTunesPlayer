@@ -43,7 +43,6 @@ class TrackPlayerView: UIView {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "chevron.down"), for: .normal)
         button.tintColor = .black
-        //        button.backgroundColor = .orange
         button.addTarget(self, action: #selector(minimizePlayer), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -51,7 +50,7 @@ class TrackPlayerView: UIView {
     
     private let iconImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .lightGray
+        imageView.backgroundColor = .white
         imageView.layer.cornerRadius = 5
         imageView.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -62,7 +61,6 @@ class TrackPlayerView: UIView {
         let imageView = UIImageView()
         imageView.backgroundColor = .lightGray
         imageView.layer.cornerRadius = 5
-//        imageView.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -73,6 +71,7 @@ class TrackPlayerView: UIView {
         slider.thumbTintColor = .darkGray
 //        slider.setThumbImage(sliderThumb, for: .normal)
         slider.setValue(0, animated: false)
+        slider.addTarget(self, action: #selector(timeSliderChanged), for: .valueChanged)
         slider.translatesAutoresizingMaskIntoConstraints = false
         return slider
     }()
@@ -81,7 +80,6 @@ class TrackPlayerView: UIView {
         let label = UILabel()
         label.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         label.text = "00:00"
-        //        label.backgroundColor = .yellow
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -92,7 +90,6 @@ class TrackPlayerView: UIView {
         let label = UILabel()
         label.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         label.text = "00:00"
-        //        label.backgroundColor = .green
         label.textAlignment = .right
         label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -177,22 +174,21 @@ class TrackPlayerView: UIView {
         let slider = UISlider()
         slider.tintColor = .darkGray
         slider.thumbTintColor = .darkGray
-        slider.setValue(0.2, animated: false)
+        slider.setValue(1, animated: false)
+        slider.addTarget(self, action: #selector(vilumeSliderChanged), for: .valueChanged)
         slider.translatesAutoresizingMaskIntoConstraints = false
         return slider
     }()
-    
     
     // MARK: - Live Cycles
     
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
-        backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        backgroundColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
         setupMainViews()
         setupMiniViews()
         setupGestures()
     }
-    
     
     // MARK: - Metods
     
@@ -235,6 +231,8 @@ class TrackPlayerView: UIView {
         miniTrackNameLabel.text = track.trackName
         artistNameLabel.text = track.artistName
         let artworkUrl600 = track.artworkUrl60?.replacingOccurrences(of: "60x60", with: "600x600")
+        iconImageView.image = nil
+        miniIconImageView.image = nil
         setImage(for: iconImageView, from: artworkUrl600)
         setImage(for: miniIconImageView, from: track.artworkUrl60)
         playTrack(stringURL: track.previewUrl)
@@ -317,6 +315,16 @@ class TrackPlayerView: UIView {
         if let track = delegate?.getTrack(for: .backward) {
             set(track: track)
         }
+    }
+    
+    @objc
+    private func timeSliderChanged() {
+        print("timeSliderChanged = \(timeSlider.value)")
+    }
+    
+    @objc
+    private func vilumeSliderChanged() {
+        player.volume = volumeSlider.value
     }
     
     private func setupMainViews() {
