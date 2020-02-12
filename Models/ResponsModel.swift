@@ -19,4 +19,12 @@ struct Track: Decodable {
     let trackName: String?
     let artworkUrl60: String?
     let previewUrl: String?
+    
+    init(storeTrack: StoreTrack) {
+        trackId = Int(storeTrack.trackId)
+        artistName = storeTrack.artistName
+        trackName = storeTrack.trackName
+        artworkUrl60 = storeTrack.artworkUrl60
+        previewUrl = storeTrack.previewUrl
+    }
 }

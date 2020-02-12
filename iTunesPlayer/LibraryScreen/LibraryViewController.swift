@@ -79,12 +79,7 @@ extension LibraryViewController: UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TrackTableViewCell
         cell.delegate = self
-        let storeTrack = storeManager.storeTracks[indexPath.row]
-        let track = Track(trackId: Int(storeTrack.trackId),
-                          artistName: storeTrack.artistName,
-                          trackName: storeTrack.trackName,
-                          artworkUrl60: storeTrack.artworkUrl60,
-                          previewUrl: storeTrack.previewUrl)
+        let track = Track(storeTrack: storeManager.storeTracks[indexPath.row])
         cell.set(track: track, hiddenPlus: true)
         return cell
     }
@@ -96,12 +91,7 @@ extension LibraryViewController: UITableViewDataSource {
 extension LibraryViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let storeTrack = storeManager.storeTracks[indexPath.row]
-        let track = Track(trackId: Int(storeTrack.trackId),
-                          artistName: storeTrack.artistName,
-                          trackName: storeTrack.trackName,
-                          artworkUrl60: storeTrack.artworkUrl60,
-                          previewUrl: storeTrack.previewUrl)
+        let track = Track(storeTrack: storeManager.storeTracks[indexPath.row])
         tabBarDelegate?.maximizeTrackPlayerView(track: track)
     }
     
@@ -150,12 +140,7 @@ extension LibraryViewController: TrackTableViewCellProtocol, TrackPlayerProtocol
         case .forward: forIndexPath.row = indexPath.row == storeManager.storeTracks.count - 1 ? 0 : indexPath.row + 1
         }
         table.selectRow(at: forIndexPath, animated: true, scrollPosition: .middle)
-        let storeTrack = storeManager.storeTracks[forIndexPath.row]
-        let track = Track(trackId: Int(storeTrack.trackId),
-                          artistName: storeTrack.artistName,
-                          trackName: storeTrack.trackName,
-                          artworkUrl60: storeTrack.artworkUrl60,
-                          previewUrl: storeTrack.previewUrl)
+        let track = Track(storeTrack: storeManager.storeTracks[indexPath.row])
         return track
     }
     
