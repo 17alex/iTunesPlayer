@@ -13,6 +13,8 @@ class MainTabBarController: UITabBarController {
     // MARK: - Propertis
     
     let trackPlayerView = TrackPlayerView()
+    let dataProvider = DataProvider()
+    let storeManager = StoreManager()
     
     // MARK: - Live cycles
     
@@ -25,7 +27,7 @@ class MainTabBarController: UITabBarController {
     // MARK: - metods
     
     private func setup() {
-        let searchVC = SearchViewController()
+        let searchVC = SearchViewController(dataProvider: dataProvider, storeManager: storeManager)
         searchVC.tabBarDelegate = self
         
         let searchNC = UINavigationController(rootViewController: searchVC)
@@ -34,7 +36,7 @@ class MainTabBarController: UITabBarController {
         searchNC.tabBarItem.title = "Search"
         searchNC.tabBarItem.image = UIImage(systemName: "doc.text.magnifyingglass")
         
-        let libraryVC = LibraryViewController()
+        let libraryVC = LibraryViewController(dataProvider: dataProvider, storeManager: storeManager)
         libraryVC.tabBarDelegate = self
         
         let libraryNC = UINavigationController(rootViewController: libraryVC)

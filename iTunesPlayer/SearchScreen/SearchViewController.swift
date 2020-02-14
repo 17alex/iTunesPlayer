@@ -13,14 +13,10 @@ class SearchViewController: UIViewController {
     // MARK: - Property
     private var presenter: SearchPresenter!
     private var interactor: SearchInteractor!
-    private var dataProvider: DataProvider!
-    private var storeManager: StoreManager!
     
     private var timer: Timer?
-    private var tracks: [Track] = []
     
     weak var tabBarDelegate: MainTabBarController?
-
     
     private lazy var table: UITableView = {
         let table = UITableView()
@@ -38,14 +34,22 @@ class SearchViewController: UIViewController {
         return searchController
     }()
     
+    // MARK: - Init
+    
+    convenience init(dataProvider: DataProvider, storeManager: StoreManager) {
+        self.init()
+        
+        presenter = SearchPresenter(searchView: self)
+        interactor = SearchInteractor(presenter: presenter, dataProvider: dataProvider, storeManager: storeManager)
+    }
+    
     // MARK: - LiveCycles
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setup()
         setupViews()
-        storeManager.loadStoreTracks()
+        interactor.loadStoreTracks()
         searchBar(searchController.searchBar, textDidChange: "gayazov")
     }
     
@@ -55,13 +59,6 @@ class SearchViewController: UIViewController {
     }
     
     //MARK: - Metods
-    
-    private func setup() {
-        presenter = SearchPresenter(searchView: self)
-        dataProvider = DataProvider()
-        interactor = SearchInteractor(presenter: presenter, dataProvider: dataProvider)
-        storeManager = StoreManager()
-    }
     
     private func setupViews() {
         

@@ -233,14 +233,14 @@ class TrackPlayerView: UIView {
         let artworkUrl600 = track.artworkUrl60?.replacingOccurrences(of: "60x60", with: "600x600")
         iconImageView.image = nil
         miniIconImageView.image = nil
-        setImage(for: iconImageView, from: artworkUrl600)
-        setImage(for: miniIconImageView, from: track.artworkUrl60)
+        loadImage(for: iconImageView, from: artworkUrl600)
+        loadImage(for: miniIconImageView, from: track.artworkUrl60)
         playTrack(stringURL: track.previewUrl)
         addObserverStartTime()
         addObserveCurrentTime()
     }
     
-    private func setImage(for imageView: UIImageView, from stringUrl: String?) {
+    private func loadImage(for imageView: UIImageView, from stringUrl: String?) {
         
         delegate?.getImage(from: stringUrl, complete: { (image) in
             imageView.image = image

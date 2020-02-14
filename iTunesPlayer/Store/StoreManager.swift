@@ -52,7 +52,7 @@ class StoreManager {
         }
     }
     
-    func deleteTrack(index: Int) {
+    func deleteTrack(for index: Int) {
         context.delete(storeTracks.remove(at: index))
         saveContext ()
     }

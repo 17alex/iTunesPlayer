@@ -13,8 +13,6 @@ class LibraryViewController: UIViewController {
     // MARK: - Property
     private var presenter: LibraryPresenter!
     private var interactor: LibraryInteractor!
-    private var dataProvider: DataProvider!
-    private var storeManager: StoreManager!
     
     weak var tabBarDelegate: MainTabBarController?
     
@@ -27,32 +25,32 @@ class LibraryViewController: UIViewController {
         return table
     }()
     
+    // MARK: - Init
+    
+    convenience init(dataProvider: DataProvider, storeManager: StoreManager) {
+        self.init()
+        
+        presenter = LibraryPresenter(libraryView: self)
+        interactor = LibraryInteractor(presenter: presenter, dataProvider: dataProvider, storeManager: storeManager)
+    }
+    
     // MARK: - LiveCycles
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setup()
         setupViews()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        storeManager.loadStoreTracks()
+        interactor.loadStoreTracks()
         table.reloadData()
         tabBarDelegate?.trackPlayerView.delegate = self
     }
     
     //MARK: - Metods
-    
-    private func setup() {
-        presenter = LibraryPresenter(libraryView: self)
-        dataProvider = DataProvider()
-        interactor = LibraryInteractor(presenter: presenter, dataProvider: dataProvider)
-        storeManager = StoreManager()
-    }
-    
+
     private func setupViews() {
         
         view.backgroundColor = .white
@@ -72,14 +70,14 @@ class LibraryViewController: UIViewController {
 extension LibraryViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return storeManager.storeTracks.count
+        return interactor.getStoreTracksCount()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TrackTableViewCell
         cell.delegate = self
-        let track = Track(storeTrack: storeManager.storeTracks[indexPath.row])
+        let track = interactor.getTrackFromStore(for: indexPath.row)
         cell.set(track: track, hiddenPlus: true)
         return cell
     }
@@ -91,7 +89,7 @@ extension LibraryViewController: UITableViewDataSource {
 extension LibraryViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let track = Track(storeTrack: storeManager.storeTracks[indexPath.row])
+        let track = interactor.getTrackFromStore(for: indexPath.row)
         tabBarDelegate?.maximizeTrackPlayerView(track: track)
     }
     
@@ -102,7 +100,7 @@ extension LibraryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let contextItem = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (contextualAction, view, boolValue) in
-            self?.storeManager.deleteTrack(index: indexPath.row)
+            self?.interactor.deleteTrackFromStore(for: indexPath.row)
             self?.table.deleteRows(at: [indexPath], with: .automatic)
         }
         let swipeActions = UISwipeActionsConfiguration(actions: [contextItem])
@@ -136,11 +134,12 @@ extension LibraryViewController: TrackTableViewCellProtocol, TrackPlayerProtocol
         table.deselectRow(at: indexPath, animated: true)
         var forIndexPath = indexPath
         switch direction {
-        case .backward: forIndexPath.row = indexPath.row == 0 ? storeManager.storeTracks.count - 1 : indexPath.row - 1
-        case .forward: forIndexPath.row = indexPath.row == storeManager.storeTracks.count - 1 ? 0 : indexPath.row + 1
+        case .backward: forIndexPath.row = indexPath.row == 0 ?
+            interactor.getStoreTracksCount() - 1 : indexPath.row - 1
+        case .forward: forIndexPath.row = indexPath.row == interactor.getStoreTracksCount() - 1 ? 0 : indexPath.row + 1
         }
         table.selectRow(at: forIndexPath, animated: true, scrollPosition: .middle)
-        let track = Track(storeTrack: storeManager.storeTracks[indexPath.row])
+        let track = interactor.getTrackFromStore(for: indexPath.row)
         return track
     }
     

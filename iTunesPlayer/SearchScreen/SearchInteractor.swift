@@ -12,10 +12,14 @@ class SearchInteractor {
     
     private unowned let presenter: SearchPresenter
     private unowned let dataProvider: DataProvider
+    private unowned let storeManager: StoreManager
     
-    init(presenter: SearchPresenter, dataProvider: DataProvider) {
+    private var tracks: [Track] = []
+    
+    init(presenter: SearchPresenter, dataProvider: DataProvider, storeManager: StoreManager) {
         self.presenter = presenter
         self.dataProvider = dataProvider
+        self.storeManager = storeManager
     }
     
     deinit {
@@ -48,4 +52,21 @@ class SearchInteractor {
             self.presenter.setIconImage(imageData: data, completion: complete)
         }
     }
+    
+    func loadStoreTracks() {
+        storeManager.loadStoreTracks()
+    }
+    
+//    func getStoreTracksCount() -> Int {
+//        return storeManager.storeTracks.count
+//    }
+    
+//    func getTrackFromStore(for index: Int) -> Track {
+//        return Track(storeTrack: storeManager.storeTracks[index])
+//    }
+    
+//    func deleteTrackFromStore(for index: Int) {
+//        storeManager.deleteTrack(for: index)
+//    }
+    
 }
