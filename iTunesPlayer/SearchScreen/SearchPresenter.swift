@@ -10,7 +10,11 @@ import UIKit
 
 class SearchPresenter {
     
+    // MARK: - Propertis
+    
     private unowned let searchView: SearchViewController
+    
+    // MARK: - Init
     
     init(searchView: SearchViewController) {
         self.searchView = searchView
@@ -19,6 +23,8 @@ class SearchPresenter {
     deinit {
         print("SearchPresenter deinit")
     }
+    
+    // MARK: - Metods
     
     func presentAlert(with text: String) {
         searchView.presentAlert(with: text)

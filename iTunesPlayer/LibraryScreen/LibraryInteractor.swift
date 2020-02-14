@@ -10,9 +10,13 @@ import UIKit
 
 class LibraryInteractor {
     
+    // MARK: - Propertis
+    
     private unowned let presenter: LibraryPresenter
     unowned let dataProvider: DataProvider
     unowned let storeManager: StoreManager
+    
+    // MARK: - Init
     
     init(presenter: LibraryPresenter, dataProvider: DataProvider, storeManager: StoreManager) {
         self.presenter = presenter
@@ -23,6 +27,8 @@ class LibraryInteractor {
     deinit {
         print("SearchInteractor deinit")
     }
+    
+    // MARK: - Metods
     
     func getImageData(from urlString: String?, complete: @escaping ((UIImage?) -> Void)) {
         

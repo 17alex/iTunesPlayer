@@ -10,6 +10,8 @@ import Foundation
 
 class DataProvider {
     
+    // MARK: - Metods
+    
     func getSearchResponse(width text: String, completion: @escaping ((Data?, Error?) -> Void)) {
         
         let urlString = "https://itunes.apple.com/search?term=\(text)&limit=25"

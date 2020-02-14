@@ -10,7 +10,11 @@ import UIKit
 
 class LibraryPresenter {
     
+    // MARK: - Propertis
+    
     private unowned let libraryView: LibraryViewController
+    
+    // MARK: - Init
     
     init(libraryView: LibraryViewController) {
         self.libraryView = libraryView
@@ -19,6 +23,8 @@ class LibraryPresenter {
     deinit {
         print("LibraryPresenter deinit")
     }
+    
+    // MARK: - Metods
     
     func setIconImage(imageData: Data, completion: ((UIImage?) -> Void)) {
         let image = UIImage(data: imageData)

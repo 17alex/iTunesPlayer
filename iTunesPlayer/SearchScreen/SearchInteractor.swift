@@ -10,11 +10,16 @@ import UIKit
 
 class SearchInteractor {
     
+    
+    // MARK: - Propertis
+    
     private unowned let presenter: SearchPresenter
     private unowned let dataProvider: DataProvider
     private unowned let storeManager: StoreManager
     
     private var tracks: [Track] = []
+    
+    // MARK: - Init
     
     init(presenter: SearchPresenter, dataProvider: DataProvider, storeManager: StoreManager) {
         self.presenter = presenter
@@ -25,6 +30,8 @@ class SearchInteractor {
     deinit {
         print("SearchInteractor deinit")
     }
+    
+    // MARK: - Metods
     
     func loadTracks(width text: String) {
         
