@@ -72,8 +72,7 @@ class SearchViewController: UIViewController {
         table.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
     }
     
-    func set(tracks: [Track]?) {
-        self.tracks = tracks ?? []
+    func updateTracks() {
         table.reloadData()
     }
     
@@ -93,14 +92,14 @@ enum DirectionPlay {
 extension SearchViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tracks.count
+        return interactor.getLoadedTracksCount()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TrackTableViewCell
         cell.delegate = self
-        let track = tracks[indexPath.row]
-        let hidden = storeManager.containsTrack(track: track)
+        let track = interactor.getLoadedTrack(for: indexPath.row)
+        let hidden = interactor.containsLoadedTrackInStore(track: track)
         cell.set(track: track, hiddenPlus: hidden)
         return cell
     }
@@ -112,7 +111,7 @@ extension SearchViewController: UITableViewDataSource {
 extension SearchViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let track = tracks[indexPath.row]
+        let track = interactor.getLoadedTrack(for: indexPath.row)
         tabBarDelegate?.maximizeTrackPlayerView(track: track)
     }
     
@@ -131,7 +130,7 @@ extension SearchViewController: UISearchBarDelegate {
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 0.6, repeats: false, block: { (_) in
             guard !searchText.isEmpty else { return }
-            self.interactor.getData(width: searchText)
+            self.interactor.loadTracks(width: searchText)
         })
     }
     
@@ -164,7 +163,8 @@ extension SearchViewController: TrackTableViewCellProtocol, TrackPlayerProtocol 
     func pressPlusButton(button: UIButton) {
         guard let cell = button.superview as? TrackTableViewCell,
             let index = table.indexPath(for: cell) else { return }
-        storeManager.addTrackToStore(track: tracks[index.row])
+        let track = interactor.getLoadedTrack(for: index.row)
+        interactor.addLoadedTrackToStore(track: track)
         print("storeManager.addTrackToStore indexPath = \(index)")
     }
     
@@ -172,11 +172,12 @@ extension SearchViewController: TrackTableViewCellProtocol, TrackPlayerProtocol 
         guard let indexPath = table.indexPathForSelectedRow else { return nil}
         table.deselectRow(at: indexPath, animated: true)
         var forIndexPath = indexPath
+        let loadedTracksCount = interactor.getLoadedTracksCount()
         switch direction {
-        case .backward: forIndexPath.row = indexPath.row == 0 ? tracks.count - 1 : indexPath.row - 1
-        case .forward: forIndexPath.row = indexPath.row == tracks.count - 1 ? 0 : indexPath.row + 1
+        case .backward: forIndexPath.row = indexPath.row == 0 ? loadedTracksCount - 1 : indexPath.row - 1
+        case .forward: forIndexPath.row = indexPath.row == loadedTracksCount - 1 ? 0 : indexPath.row + 1
         }
         table.selectRow(at: forIndexPath, animated: true, scrollPosition: .middle)
-        return tracks[forIndexPath.row]
+        return interactor.getLoadedTrack(for: indexPath.row)
     }
 }

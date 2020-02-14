@@ -20,13 +20,12 @@ class SearchPresenter {
         print("SearchPresenter deinit")
     }
     
-    func prepareSet(searchResponse: SearchResponse) {
-        let tracks = searchResponse.results
-        searchView.set(tracks: tracks)
-    }
-    
     func presentAlert(with text: String) {
         searchView.presentAlert(with: text)
+    }
+    
+    func tracksLoaded() {
+        searchView.updateTracks()
     }
     
     func setIconImage(imageData: Data, completion: ((UIImage?) -> Void)) {

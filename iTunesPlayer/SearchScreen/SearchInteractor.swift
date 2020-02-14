@@ -26,7 +26,7 @@ class SearchInteractor {
         print("SearchInteractor deinit")
     }
     
-    func getData(width text: String) {
+    func loadTracks(width text: String) {
         
         dataProvider.getSearchResponse(width: text) { (data, error) in
             
@@ -37,12 +37,17 @@ class SearchInteractor {
             if let data = data {
                 do {
                     let searchResponse = try JSONDecoder().decode(SearchResponse.self, from: data)
-                    self.presenter.prepareSet(searchResponse: searchResponse)
+                    self.prepareTracks(searchResponse: searchResponse)
                 } catch let jsonError {
                     self.presenter.presentAlert(with: jsonError.localizedDescription)
                 }
             }
         }
+    }
+    
+    func prepareTracks(searchResponse: SearchResponse) {
+        tracks = searchResponse.results
+        presenter.tracksLoaded()
     }
     
     func getImageData(from urlString: String?, complete: @escaping ((UIImage?) -> Void)) {
@@ -57,16 +62,20 @@ class SearchInteractor {
         storeManager.loadStoreTracks()
     }
     
-//    func getStoreTracksCount() -> Int {
-//        return storeManager.storeTracks.count
-//    }
+    func getLoadedTracksCount() -> Int {
+        return tracks.count
+    }
     
-//    func getTrackFromStore(for index: Int) -> Track {
-//        return Track(storeTrack: storeManager.storeTracks[index])
-//    }
+    func getLoadedTrack(for index: Int) -> Track {
+        return tracks[index]
+    }
     
-//    func deleteTrackFromStore(for index: Int) {
-//        storeManager.deleteTrack(for: index)
-//    }
+    func addLoadedTrackToStore(track: Track) {
+        storeManager.addTrackToStore(track: track)
+    }
+    
+    func containsLoadedTrackInStore(track: Track) -> Bool {
+        storeManager.containsTrack(track: track)
+    }
     
 }
