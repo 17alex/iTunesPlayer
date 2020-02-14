@@ -38,6 +38,8 @@ class TrackPlayerView: UIView {
     private let backwardImage = UIImage(systemName: "backward.fill")
     private let forwardImage = UIImage(systemName: "forward.fill")
     private let sliderThumb = UIImage(systemName: "circle.fill")
+    private let minVolumeImage = UIImage(systemName: "speaker.1.fill")
+    private let maxVolumeImage = UIImage(systemName: "speaker.3.fill")
     
     private let closeButton: UIButton = {
         let button = UIButton(type: .system)
@@ -178,6 +180,24 @@ class TrackPlayerView: UIView {
         slider.addTarget(self, action: #selector(vilumeSliderChanged), for: .valueChanged)
         slider.translatesAutoresizingMaskIntoConstraints = false
         return slider
+    }()
+
+    private lazy var minVolumeImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = minVolumeImage
+        imageView.tintColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    private lazy var maxVolumeImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = maxVolumeImage
+        imageView.tintColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
     }()
     
     // MARK: - Live Cycles
@@ -353,10 +373,15 @@ class TrackPlayerView: UIView {
         let controlStackView = UIStackView(arrangedSubviews: [backwardButton, playPauseButton, forwardButton])
         controlStackView.axis = .horizontal
         controlStackView.distribution = .fillEqually
-        //        controlStackView.alignment = .center
         controlStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        mainStackView = UIStackView(arrangedSubviews: [closeButton, iconImageView, timeSliderStackView, trackArtistNameStackView, controlStackView, volumeSlider])
+        let volumeStackView = UIStackView(arrangedSubviews: [minVolumeImageView, volumeSlider, maxVolumeImageView])
+        volumeStackView.axis = .horizontal
+        volumeStackView.distribution = .fill
+        volumeStackView.spacing = 10
+        volumeStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        mainStackView = UIStackView(arrangedSubviews: [closeButton, iconImageView, timeSliderStackView, trackArtistNameStackView, controlStackView, volumeStackView])
         mainStackView.axis = .vertical
         mainStackView.distribution = .fill
         mainStackView.spacing = 2
