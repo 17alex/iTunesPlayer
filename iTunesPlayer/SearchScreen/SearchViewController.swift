@@ -171,13 +171,13 @@ extension SearchViewController: TrackTableViewCellProtocol, TrackPlayerProtocol 
     func getTrack(for direction: DirectionPlay) ->  Track? {
         guard let indexPath = table.indexPathForSelectedRow else { return nil}
         table.deselectRow(at: indexPath, animated: true)
-        var forIndexPath = indexPath
+        var newIndexPath = indexPath
         let loadedTracksCount = interactor.getLoadedTracksCount()
         switch direction {
-        case .backward: forIndexPath.row = indexPath.row == 0 ? loadedTracksCount - 1 : indexPath.row - 1
-        case .forward: forIndexPath.row = indexPath.row == loadedTracksCount - 1 ? 0 : indexPath.row + 1
+        case .backward: newIndexPath.row = indexPath.row == 0 ? loadedTracksCount - 1 : indexPath.row - 1
+        case .forward: newIndexPath.row = indexPath.row == loadedTracksCount - 1 ? 0 : indexPath.row + 1
         }
-        table.selectRow(at: forIndexPath, animated: true, scrollPosition: .middle)
-        return interactor.getLoadedTrack(for: indexPath.row)
+        table.selectRow(at: newIndexPath, animated: true, scrollPosition: .middle)
+        return interactor.getLoadedTrack(for: newIndexPath.row)
     }
 }
