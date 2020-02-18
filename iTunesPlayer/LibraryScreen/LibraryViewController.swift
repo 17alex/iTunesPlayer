@@ -132,14 +132,15 @@ extension LibraryViewController: TrackTableViewCellProtocol, TrackPlayerProtocol
     func getTrack(for direction: DirectionPlay) -> Track? {
         guard let indexPath = table.indexPathForSelectedRow else { return nil}
         table.deselectRow(at: indexPath, animated: true)
-        var forIndexPath = indexPath
+        var newIndexPath = indexPath
+        let storeTracksCount = interactor.getStoreTracksCount()
         switch direction {
-        case .backward: forIndexPath.row = indexPath.row == 0 ?
-            interactor.getStoreTracksCount() - 1 : indexPath.row - 1
-        case .forward: forIndexPath.row = indexPath.row == interactor.getStoreTracksCount() - 1 ? 0 : indexPath.row + 1
+        case .backward: newIndexPath.row = indexPath.row == 0 ?
+            storeTracksCount - 1 : indexPath.row - 1
+        case .forward: newIndexPath.row = indexPath.row == storeTracksCount - 1 ? 0 : indexPath.row + 1
         }
-        table.selectRow(at: forIndexPath, animated: true, scrollPosition: .middle)
-        let track = interactor.getTrackFromStore(for: indexPath.row)
+        table.selectRow(at: newIndexPath, animated: true, scrollPosition: .middle)
+        let track = interactor.getTrackFromStore(for: newIndexPath.row)
         return track
     }
     
